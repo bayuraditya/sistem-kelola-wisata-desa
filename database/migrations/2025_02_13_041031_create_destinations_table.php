@@ -19,10 +19,20 @@ return new class extends Migration
             $table->bigInteger('entry_fee');
             $table->time('opening_time');
             $table->time('closed_time');
-            $table->string('image');
+
+            $table->string('handphone_number');
+            $table->string('email');
+            $table->string('instagram');
+            $table->string('tiktok');
+            $table->string('facebook');
+            $table->string('youtube');
+
             
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         
           
             $table->timestamps();
@@ -34,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('destinations_');
+        Schema::dropIfExists('destinations');
     }
 };

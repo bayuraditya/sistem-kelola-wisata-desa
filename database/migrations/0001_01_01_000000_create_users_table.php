@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('handpone_number')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin','customer'])->default('customer');
-            $table->rememberToken();
+            $table->enum('role', ['admin','visitor'])->default('visitor');
+            $table->rememberToken();    
             $table->timestamps();
         });
 
