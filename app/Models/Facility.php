@@ -14,6 +14,11 @@ class Facility extends Model
         'description'
     ];
     public function destinations(){
-        return $this->belongsToMany(Destination::class);
+        return $this->belongsToMany(Destination::class, 'destination_facility','facility_id','destination_id');
     }
+    public function facilityImages(){
+        return $this->hasMany(FacilityImage::class);
+    }
+
+
 }

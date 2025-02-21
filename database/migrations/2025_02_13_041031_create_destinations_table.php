@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('destinations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('location');
             $table->bigInteger('entry_fee');
             $table->time('opening_time');
             $table->time('closed_time');
 
-            $table->string('handphone_number');
-            $table->string('email');
-            $table->string('instagram');
-            $table->string('tiktok');
-            $table->string('facebook');
-            $table->string('youtube');
+            $table->string('handphone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('tiktok')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('youtube')->nullable();
 
             
             $table->unsignedBigInteger('category_id');
