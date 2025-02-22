@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Facility extends Model
+class Activity extends Model
 {
     use HasFactory;
-    protected $table = 'facilities';
+    protected $table = 'activities';
     protected $fillable = [
         'name',
         'description',
@@ -18,7 +18,4 @@ class Facility extends Model
     public function destinations(){
         return $this->belongsTo(Destination::class);
     }
-  
-
-
 }

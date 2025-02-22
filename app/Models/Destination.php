@@ -28,7 +28,7 @@ class Destination extends Model
 
     public function reviews()
     {
-        return $this->belongsTo(Review::class);
+        return $this->hasMany(Review::class);
     }
     public function user()
     {
@@ -38,12 +38,11 @@ class Destination extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function destination_image(){
-        return $this->hasMany(DestinationImage::class);
-    }
     public function facilities(){
-        return $this->belongsToMany(Facility::class, 'destination_facility','destination_id','facility_id');
+        return $this->hasMany(Facility::class);
+    }
+    public function activities(){
+        return $this->hasMany(Activity::class);
     }
 
 }

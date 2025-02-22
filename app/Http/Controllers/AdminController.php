@@ -19,7 +19,7 @@ class AdminController extends Controller
         
         $user = Auth::user();
         // $destinations = Destination::with('user', 'destination_image','category','facilities')->get();
-        $destinations = Destination::with('user', 'destination_image', 'category', 'facilities.facilityImages')->get();
+        $destinations = Destination::with('user', 'destination_image', 'category', 'facilities')->get();
 
         $categories = Category::all();
         dd($destinations);

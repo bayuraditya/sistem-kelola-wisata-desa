@@ -180,7 +180,6 @@
                     <td>{{$d->facilities->name}}</td>
                     <td>{{$d->facilities->description}}</td>
                     <td>                                     
-                        @foreach($d->facilities)   
                         <img src="{{ asset('images/' . $d->fa) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
                     </td>
                 </tr>
@@ -317,10 +316,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
                                     <form action="{{ route('admin.destination.destroy', $d->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
