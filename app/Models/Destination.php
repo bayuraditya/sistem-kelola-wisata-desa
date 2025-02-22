@@ -21,7 +21,6 @@ class Destination extends Model
         'tiktok',
         'facebook',
         'youtube',
-        'destination_image_id',
         'category_id',
         'user_id'
     ];
@@ -43,6 +42,9 @@ class Destination extends Model
     }
     public function activities(){
         return $this->hasMany(Activity::class);
+    }
+    public function destinationImages(){
+        return $this->hasMany(DestinationImage::class);
     }
 
 }

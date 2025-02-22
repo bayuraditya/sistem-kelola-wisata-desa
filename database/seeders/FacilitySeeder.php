@@ -14,16 +14,16 @@ class FacilitySeeder extends Seeder
      */
     public function run(): void
     {
-        $facilities = [
-            ['name' => 'toilet'],
-            ['name' => 'parking'],
-            ['name' => 'wifi'],
-            ['name' => 'canteen'],
-            ['name' => 'security'],
-        ];
+        // $facilities = [
+        //     ['name' => 'toilet'],
+        //     ['name' => 'parking'],
+        //     ['name' => 'wifi'],
+        //     ['name' => 'canteen'],
+        //     ['name' => 'security'],
+        // ];
 
-        foreach ($facilities as $facility) {
-            Facility::create($facility);
-        }
+        // foreach ($facilities as $facility) {
+        //     Facility::create($facility);
+        // }
     }
 }

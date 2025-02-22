@@ -49,12 +49,7 @@
                   <span>Destination</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('admin.facility.index') ? 'active' : '' }} ">
-                <a href="{{ route('admin.facility.index') }}" class="sidebar-link">
-                  <i style="width: 18px;" class="fa-solid fa-person-walking"></i>
-                  <span>Facility</span>
-                </a>
-              </li>
+         
               <li class="sidebar-item {{ request()->routeIs('admin.category.index') ? 'active' : '' }} ">
                 <a href="{{ route('admin.category.index') }}" class="sidebar-link">
                   <i style="width: 18px;" class="fa-solid fa-list"></i>

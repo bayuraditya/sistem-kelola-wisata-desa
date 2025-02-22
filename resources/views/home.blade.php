@@ -22,6 +22,9 @@
                         <a class="nav-link" href="#about">About Us</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#about">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#destination">Destination</a>
                     </li>
                     @auth

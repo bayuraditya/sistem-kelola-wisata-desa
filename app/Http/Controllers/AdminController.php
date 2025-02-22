@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\DestinationImage;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,15 +20,15 @@ class AdminController extends Controller
     public function destination(){
         
         $user = Auth::user();
-        // $destinations = Destination::with('user', 'destination_image','category','facilities')->get();
-        $destinations = Destination::with('user', 'destination_image', 'category', 'facilities')->get();
+        $destinations = Destination::with('user', 'destinationImages', 'category', 'facilities','reviews')->get();
 
         $categories = Category::all();
-        dd($destinations);
-        
+
+        // dd($destinations[23]->user->name);
         return view('admin.destination.index',compact('user','destinations','categories'));
     }
     public function storeDestination(Request $request){
+            // dd($request);
         $destination = new Destination();
         $destination->name = $request->name;
         $destination->description = $request->description;
@@ -44,6 +46,7 @@ class AdminController extends Controller
         $destination->user_id = Auth::user()->id;
         // dd($destination);   
         $destination->save();
+
          if ($request->hasFile('image')) {
             $images = $request->file('image');
             foreach($images as $image){
@@ -60,7 +63,41 @@ class AdminController extends Controller
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
-     
+
+        foreach($request->facility as $f){
+            $facility = new Facility();
+            $facility->name = $f['name'];
+            $facility->description = $f['description'];
+            
+            if(isset($f['image'])){
+                $facilityImage = $f['image'];
+                $facilityImageName = time() . '_' . uniqid() . '.' . $facilityImage->getClientOriginalExtension();
+                // Move the image to the desired location
+                $facilityImage->move(public_path('images'), $facilityImageName);
+                $facility->image = $facilityImageName;
+            }
+            $facility->destination_id = $destination->id;
+            $facility->save();
+        }
+
+        foreach($request->activity as $a){
+            $activity = new Activity();
+            $activity->name = $a['name'];
+            $activity->description = $a['description'];
+
+            
+            if(isset($a['image'])){
+                $activityImage = $a['image'];
+                $activityImageName = time() . '_' . uniqid() . '.' . $activityImage->getClientOriginalExtension();
+                // Move the image to the desired location
+                $activityImage->move(public_path('images'), $activityImageName);
+                $activity->image = $activityImageName;
+            }
+            
+            $activity->destination_id = $destination->id;
+            $activity->save();
+        }
+        
         return redirect()->route('admin.destination.index')
                          ->with('success', 'Destination created successfully');
     }

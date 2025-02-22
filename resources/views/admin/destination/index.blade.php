@@ -9,11 +9,11 @@
 
 <br>
 @if (session('success'))
-                    <div class="alert-success alert  alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+    <div class="alert-success alert  alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDestinationModal">
     Add Destination
@@ -21,7 +21,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="addDestinationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"> Add Destination </h1>
@@ -94,14 +94,100 @@
                         <option value="{{$c->id}}">{{$c->name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div><br>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Destination Image</label>
                 <input class="form-control" type="file" name="image[]" id="images" accept="image/*" multiple>
             </div>
+            <hr>
+            <div id="facilities-container">
+            <h5>Facilities</h5>
+                <div class="facility-item">
+                    <label for="facility0-name" class="form-label">Facility 1</label>
+                    <input type="text" class="form-control" id="facility0-name" name="facility[0][name]" required>
+
+                    <label for="facility0-description" class="form-label">Facility 1 Description</label>
+                    <input type="text" class="form-control" id="facility0-description" name="facility[0][description]" >
+                
+                    <label for="facility0-image" class="form-label mt-2">Facility 1 Image</label>
+                    <input type="file" class="form-control" id="facility0-image" name="facility[0][image]" >
+                </div>
+            </div>
+        <button type="button" id="add-facility-btn" class="btn btn-primary mt-3">Add More Facility</button>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let facilitiesContainer = document.getElementById("facilities-container");
+                let addFacilityBtn = document.getElementById("add-facility-btn");
+                let facilityCount = 1;
+
+                addFacilityBtn.addEventListener("click", function () {
+                    let newFacilityDiv = document.createElement("div");
+                    newFacilityDiv.classList.add("facility-item", "mt-3");
+
+                    newFacilityDiv.innerHTML = `
+                        <label for="facility${facilityCount}-name" class="form-label">Facility ${facilityCount + 1}</label>
+                        <input type="text" class="form-control" id="facility${facilityCount}-name" name="facility[${facilityCount}][name]" required>
+
+                        <label for="facility${facilityCount}-description" class="form-label">Facility ${facilityCount + 1} Description</label>
+                        <input type="text" class="form-control" id="facility${facilityCount}-description" name="facility[${facilityCount}][description]" >
+                    
+                        <label for="facility${facilityCount}-image" class="form-label mt-2">Facility ${facilityCount + 1} Image</label>
+                        <input type="file" class="form-control" id="facility${facilityCount}-image" name="facility[${facilityCount}][image]" >
+                    `;
+                    
+                    facilitiesContainer.appendChild(newFacilityDiv);
+                    facilityCount++;
+                });
+            });
+        </script>
+
+<hr><div id="activities-container">
+    <h5>Activities</h5>
+    <div class="activity-item">
+        <label for="activity0-name" class="form-label">Activity 1</label>
+        <input type="text" class="form-control" id="activity0-name" name="activity[0][name]" required>
+
+        <label for="activity0-description" class="form-label">Activity 1 Description</label>
+        <input type="text" class="form-control" id="activity0-description" name="activity[0][description]">
+    
+        <label for="activity0-image" class="form-label mt-2">Activity 1 Image</label>
+        <input type="file" class="form-control" id="activity0-image" name="activity[0][image]">
+    </div>
+</div>
+<button type="button" id="add-activity-btn" class="btn btn-primary mt-3">Add More Activity</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let activitiesContainer = document.getElementById("activities-container");
+        let addActivityBtn = document.getElementById("add-activity-btn");
+        let activityCount = 1;
+
+        addActivityBtn.addEventListener("click", function () {
+            let newActivityDiv = document.createElement("div");
+            newActivityDiv.classList.add("activity-item", "mt-3");
+
+            newActivityDiv.innerHTML = `
+                <label for="activity${activityCount}-name" class="form-label">Activity ${activityCount + 1}</label>
+                <input type="text" class="form-control" id="activity${activityCount}-name" name="activity[${activityCount}][name]" required>
+
+                <label for="activity${activityCount}-description" class="form-label">Activity ${activityCount + 1} Description</label>
+                <input type="text" class="form-control" id="activity${activityCount}-description" name="activity[${activityCount}][description]">
+            
+                <label for="activity${activityCount}-image" class="form-label mt-2">Activity ${activityCount + 1} Image</label>
+                <input type="file" class="form-control" id="activity${activityCount}-image" name="activity[${activityCount}][image]">
+            `;
+            
+            activitiesContainer.appendChild(newActivityDiv);
+            activityCount++;
+        });
+    });
+</script>
+
+         <br><br>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        </div>
+    </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -111,7 +197,7 @@
 
 <br><br>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="tableDestination">
             <thead>
                 <tr>
                     <td>No</td>
@@ -128,9 +214,10 @@
                     <td>Facebook</td>
                     <td>Youtube</td>
                     <td>Category</td>
-                    <td>Images</td>
-                    <td>Facilities</td>
                     <td>Created By</td>
+                    <td>Facilities</td>
+                    <td>Images</td>
+                    <td>Activities</td>
                     <td>Action</td>
                 </tr>
             </thead>
@@ -151,12 +238,59 @@
                     <td>{{$d->facebook}}</td>
                     <td>{{$d->youtube}}</td>
                     <td>{{$d->category->name}}</td>
+                    <td>{{$d->user->name}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image{{$d->id}}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facilities{{$d->id}}">
+                            Facilities
+                        </button>
+
+                        <div class="modal fade" id="facilities{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Facilities</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <td>No</td>
+                                                        <td>Facility</td>
+                                                        <td>Description</td>
+                                                        <td>Image</td>
+                                                    </tr>
+                                                </thead>    
+                                                <tbody>
+                                                    @foreach($d->facilities as $f)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$f->name}}</td>
+                                                        <td>{{$f->description}}</td>
+                                                        <td>                                     
+                                                            <img src="{{ asset('images/' . $f->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>        
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#images{{$d->id}}">
                             Images
                         </button>
 
-                        <div class="modal fade" id="image{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="images{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -164,29 +298,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td>No</td>
-                    <td>Facility</td>
-                    <td>Image</td>
-                </tr>
-            </thead>    
-            <tbody>
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$d->facilities->name}}</td>
-                    <td>{{$d->facilities->description}}</td>
-                    <td>                                     
-                        <img src="{{ asset('images/' . $d->fa) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                    </td>
-                </tr>
-            </tbody>
-        </table>        
-    </div>
-                                    @foreach($d->destination_image as $i)
+                                    @foreach($d->destinationImages as $i)
                                         <img src="{{ asset('images/' . $i->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
                                     @endforeach
                                 </div>
@@ -198,30 +310,51 @@
                     </div>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facility{{$d->id}}">
-                            Facilities
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activities{{$d->id}}">
+                            Activities
                         </button>
 
-                        <div class="modal fade" id="facility{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="activities{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Facilities</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Activities</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    @foreach($d->destination_image as $i)
-                                        <img src="{{ asset('images/' . $i->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                                    @endforeach
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>No</td>
+                                                    <td>Activity</td>
+                                                    <td>Description</td>
+                                                    <td>Image</td>
+                                                </tr>
+                                            </thead>    
+                                            <tbody>
+                                                @foreach($d->activities as $d)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{$d->name}}</td>
+                                                    <td>{{$d->description}}</td>
+                                                    <td>                                     
+                                                        <img src="{{ asset('images/' . $d->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>        
+                                    </div>
+                                 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
                     </td>
-                    <td>{{$d->user->name}}</td>
                     <td>
                         <!-- <a href="/admin/destination/{{ $d->id }}" type="submit" class="btn btn-warning">Edit</a> -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDestination{{$d->id}}">
@@ -302,7 +435,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">Destination Image</label><br>
-                                            @foreach($d->destination_image as $i)
+                                            @foreach(optional($d->destinationImages) ?? [] as $i)
                                                 <img src="{{ asset('images/' . $i->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
                                             @endforeach
                                             <input class="form-control" type="file" name="image[]" id="images" accept="image/*" multiple>
