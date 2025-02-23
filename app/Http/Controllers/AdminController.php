@@ -24,7 +24,7 @@ class AdminController extends Controller
 
         $categories = Category::all();
 
-        // dd($destinations[23]->user->name);
+        // dd($destinations);
         return view('admin.destination.index',compact('user','destinations','categories'));
     }
     public function storeDestination(Request $request){
