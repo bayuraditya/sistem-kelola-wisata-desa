@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Facility;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Destination;
+use App\Models\Facility;
+use Faker\Factory as Faker;
 
 class FacilitySeeder extends Seeder
 {
@@ -14,16 +14,19 @@ class FacilitySeeder extends Seeder
      */
     public function run(): void
     {
-        // $facilities = [
-        //     ['name' => 'toilet'],
-        //     ['name' => 'parking'],
-        //     ['name' => 'wifi'],
-        //     ['name' => 'canteen'],
-        //     ['name' => 'security'],
-        // ];
+        $faker = Faker::create();
+        
+        // Ambil semua destination_id yang ada agar activity terkait dengan destination yang valid
+        $destinationIds = Destination::pluck('id')->toArray();
 
-        // foreach ($facilities as $facility) {
-        //     Facility::create($facility);
-        // }
+        // Membuat 10 data activity dummy
+        for ($i = 0; $i < 10; $i++) {
+            Facility::create([
+                'name'           => $faker->sentence(3),
+                'description'    => $faker->paragraph,
+                'image'          => '1740231944_67b9d508bca11.png',
+                'destination_id' => $faker->randomElement($destinationIds),
+            ]);
+        }
     }
 }

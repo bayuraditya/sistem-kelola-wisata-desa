@@ -274,6 +274,7 @@
                             <td>Facilities</td>
                             <td>Images</td>
                             <td>Activities</td>
+                            <td>Reviews</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -293,7 +294,7 @@
                                 <td>{{$d->tiktok}}</td>
                                 <td>{{$d->facebook}}</td>
                                 <td>{{$d->youtube}}</td>
-                                <td>{{$d->category->name}}</td>
+                                <td>{{ optional($d->category)->name ?? '' }}</td>
                                 <td>{{$d->user->name}}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facilities{{$d->id}}">
@@ -411,7 +412,53 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDestination{{$d->id}}">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviews{{$d->id}}">
+                                        Reviews
+                                    </button>
+
+                                    <div class="modal fade" id="reviews{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Reviews</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td>No</td>
+                                                                    <td>Email</td>
+                                                                    <td>Name</td>
+                                                                    <td>Rating</td>
+                                                                    <td>Reviews</td>
+                                                                </tr>
+                                                            </thead>    
+                                                            <tbody>
+                                                                @foreach($d->reviews as $r)
+                                                                    <tr>
+                                                                        <td>{{$loop->iteration}}</td>
+                                                                        <td>{{$r->email}}</td>
+                                                                        <td>{{$r->name}}</td>
+                                                                        <td>{{$r->rating}}</td>
+                                                                        <td>{{$r->review}}</td>
+
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>        
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editDestination{{$d->id}}">
                                         Edit
                                     </button>
                                                             
@@ -504,10 +551,70 @@
                                                             <input class="form-control" type="file" name="image[]" id="images" accept="image/*" multiple>
                                                         </div>
                                                         <hr>
-                                                        
+                                                        <div id="editFacilities-container">
+                                                            <h5>Facilities</h5>
+                                                            @foreach($d->facilities ?? [] as $indexEF => $ef)
+                                                                <div class="editFacility-item{{$ef->id}}">
+                                                                    <label class="form-label">Facility {{$indexEF + 1}}</label>
+                                                                    <input type="text" class="form-control" name="facility[{{$indexEF}}][name]" value="{{$ef->name}}" required>
 
+                                                                    <label class="form-label">Facility {{$indexEF + 1}} Description</label>
+                                                                    <input type="text" class="form-control" name="facility[{{$indexEF}}][description]" value="{{$ef->description}}">
 
-                                                        <hr>
+                                                                    <label class="form-label mt-2">Facility {{$indexEF + 1}} Image</label><br>
+                                                                    <img src="{{ asset('images/' . $ef->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
+                                                                    {{$ef->image}}
+                                                                    <input type="file" class="form-control" name="facility[{{$indexEF}}][image]">
+
+                                                                    <button type="button" class="btn btn-danger btn-sm mt-2 remove-editFacility">Delete</button>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <button type="button" id="add-editFacility-btn" class="btn btn-primary mt-3">Add More Facility</button>
+                                                            <script>
+                                                                document.addEventListener("DOMContentLoaded", function () {
+                                                                    let editFacilitiesContainer{{ $d->id }} = document.getElementById("editFacilities-container-{{ $d->id }}");
+                                                                    let addEditFacilityBtn{{ $d->id }} = document.getElementById("add-editFacility-btn-{{ $d->id }}");
+                                                                    let editFacilityCount{{ $d->id }} = {{ count($d->facilities ?? []) }};
+
+                                                                    if (addEditFacilityBtn{{ $d->id }}) { // Check if the button exists
+                                                                        addEditFacilityBtn{{ $d->id }}.addEventListener("click", function () {
+                                                                            let newEditFacilityDiv{{ $d->id }} = document.createElement("div");
+                                                                            newEditFacilityDiv{{ $d->id }}.classList.add("editFacility-item", "mt-3");
+
+                                                                            newEditFacilityDiv{{ $d->id }}.innerHTML = `
+                                                                                <label class="form-label">Facility ${editFacilityCount{{ $d->id }} + 1}</label>
+                                                                                <input type="text" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][name]" required>
+
+                                                                                <label class="form-label">Facility ${editFacilityCount{{ $d->id }} + 1} Description</label>
+                                                                                <input type="text" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][description]">
+
+                                                                                <label class="form-label mt-2">Facility ${editFacilityCount{{ $d->id }} + 1} Image</label>
+                                                                                <input type="file" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][image]">
+
+                                                                                <button type="button" class="btn btn-danger btn-sm mt-2 remove-editFacility">Delete</button>
+                                                                            `;
+
+                                                                            editFacilitiesContainer{{ $d->id }}.appendChild(newEditFacilityDiv{{ $d->id }});
+                                                                            editFacilityCount{{ $d->id }}++;
+
+                                                                            newEditFacilityDiv{{ $d->id }}.querySelector(".remove-editFacility").addEventListener("click", function () {
+                                                                                editFacilitiesContainer{{ $d->id }}.removeChild(newEditFacilityDiv{{ $d->id }});
+                                                                            });
+                                                                        });
+                                                                    }
+
+                                                                    if (editFacilitiesContainer{{ $d->id }}) { //Check if container exists
+                                                                        editFacilitiesContainer{{ $d->id }}.querySelectorAll(".remove-editFacility").forEach(function (button) {
+                                                                            button.addEventListener("click", function (event) {
+                                                                                const facilityDiv = event.target.closest(".editFacility-item");
+                                                                                editFacilitiesContainer{{ $d->id }}.removeChild(facilityDiv);
+                                                                            });
+                                                                        });
+                                                                    }
+                                                                });
+                                                            </script>
+                                                            <hr>
                                                         <div id="activities-container">
                                                             <h5>Activities</h5>
                                                             <div class="activity-item">
@@ -534,11 +641,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input onclick="return confirm('Are you sure you want delete transaction {{ $d->id }} ?')" type="submit" class="btn btn-danger" value="DELETE">
-                                </form>
+                                    <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input onclick="return confirm('Are you sure you want delete destination {{ $d->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

@@ -7,8 +7,10 @@ use App\Models\Category;
 use App\Models\Destination;
 use App\Models\DestinationImage;
 use App\Models\Facility;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -155,20 +157,64 @@ class AdminController extends Controller
         return redirect()->route('admin.destination.index')
         ->with('success', 'Destination deleted successfully');
     }
-    public function facility(){
-        
-        $user = Auth::user();
-        return view('admin.facility.index',compact('user'));
-    }
+  
     public function category(){
         
         $user = Auth::user();
-        return view('admin.category.index',compact('user'));
+        $categories = Category::all();
+        return view('admin.category.index',compact('user','categories'));
+    }
+    public function storeCategory(Request $request){
+        $category = new Category();
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->route('admin.category.index')->with('success','Category created successfully');
+    }
+    public function updateCategory(Request $request,$id ){
+        $category = Category::findOrFail($id);
+        $category->name = $request->editName;
+        $category->save();
+        return redirect()->route('admin.category.index')->with('success','Category updated successfully');
+
+    }
+    public function destroyCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
     }
     public function user(){
         
         $user = Auth::user();
-        return view('admin.user.index',compact('user'));
+        $users = User::all();
+        return view('admin.user.index',compact('user','users'));
+    }
+    public function storeUser(Request $request){
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->handphone_number = $request->handphone_number;
+        $user->role = 'admin';
+        $user->password = Hash::make($request->password);
+        
+        if ($request->hasFile('profile_picture')) {
+            
+            
+            $profilePicture = $request->file('profile_picture');
+            $profilePictureName = time() . '_' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
+            // Move the image to the desired location
+            $profilePicture->move(public_path('images'), $profilePictureName);
+           
+            
+            $user->profile_picture = $profilePictureName;
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.user.index')->with('success', 'User created successfully.');
+
     }
     public function profile(){
         
