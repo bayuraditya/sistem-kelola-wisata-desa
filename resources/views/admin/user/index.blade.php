@@ -51,21 +51,21 @@
                                                         </div>
                                                     </div>
                                                     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let passwordInput = document.getElementById('password');
-        let toggleButton = document.getElementById('togglePassword');
+            document.addEventListener("DOMContentLoaded", function () {
+                let passwordInput = document.getElementById('password');
+                let toggleButton = document.getElementById('togglePassword');
 
-        toggleButton.addEventListener('click', function () {
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleButton.textContent = 'Hide';
-            } else {
-                passwordInput.type = 'password';
-                toggleButton.textContent = 'Show';
-            }
-        });
-    });
-</script>
+                toggleButton.addEventListener('click', function () {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggleButton.textContent = 'Hide';
+                    } else {
+                        passwordInput.type = 'password';
+                        toggleButton.textContent = 'Show';
+                    }
+                });
+            });
+        </script>
 
 
             <div class="mb-3">

@@ -433,6 +433,7 @@
                                                                     <td>Name</td>
                                                                     <td>Rating</td>
                                                                     <td>Reviews</td>
+                                                                    <td>Action</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -443,7 +444,20 @@
                                                                         <td>{{$r->name}}</td>
                                                                         <td>{{$r->rating}}</td>
                                                                         <td>{{$r->review}}</td>
-
+                                                                        <td>
+                                                                            <form action="/admin/review/{{$r->id}}" method="post">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <select class="form-select" aria-label="Default select example">
+                                                                                    <option value="accept" 
+                                                                                    {{ $r->status == 'accepted' ? 'selected' : '' }}                                                                                   
+                                                                                    >Accept</option>
+                                                                                    <option value="declined"
+                                                                                    {{ $r->status == 'declined' ? 'selected' : '' }}                                                                                   
+                                                                                    >Declined</option>
+                                                                                </select>
+                                                                            </form>
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

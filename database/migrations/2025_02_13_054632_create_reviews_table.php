@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('rating');
             $table->string('review');
+            $table->enum('status', ['declined', 'accepted','pending'])->default('pending'); // ENUM di Laravel
 
             $table->unsignedBigInteger('destination_id');
             $table->foreign('destination_id')->references('id')->on('destinations')->onDelete('cascade');

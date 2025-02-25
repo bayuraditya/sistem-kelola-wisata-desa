@@ -13,6 +13,7 @@ class Review extends Model
         'name',
         'rating',
         'review',
+        'status',
         'destination_id'
     ];
 

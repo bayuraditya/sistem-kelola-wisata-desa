@@ -16,7 +16,14 @@ class AdminController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        return view('admin.index',compact('user'));
+        $totalDestinations = Destination::count();
+        $totalCategories = Category::count();
+        $totalUsers = User::count();
+        $destinations = Destination::with('user', 'destinationImages', 'category', 'facilities', 'reviews')
+    ->take(5) // Ambil 5 data saja
+    ->get();
+
+        return view('admin.index',compact('user','totalDestinations','totalCategories','totalUsers','destinations'));
     }
 
     public function destination(){
