@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Destination;
 use App\Models\DestinationImage;
 use App\Models\Facility;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -296,5 +297,16 @@ class AdminController extends Controller
     
         // Redirect dengan pesan sukses
         return redirect()->route('admin.profile.showChangePasswordForm')->with('success', 'Password changed successfully.');
+    }
+    public function updateReview(Request $request, $id){
+        $review = Review::findOrFail($id);
+        // $statusName = 'status' . $id; 
+        $status = $request->status;
+        $review->status = $status;
+        // dd($statusName);
+        $review->save();
+
+        return redirect()->route('admin.destination.index')->with('success', 'Review Updated successfully.');
+
     }
 }

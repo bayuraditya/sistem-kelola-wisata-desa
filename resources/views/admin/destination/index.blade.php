@@ -448,14 +448,18 @@
                                                                             <form action="/admin/review/{{$r->id}}" method="post">
                                                                                 @csrf
                                                                                 @method('PUT')
-                                                                                <select class="form-select" aria-label="Default select example">
-                                                                                    <option value="accept" 
+                                                                                <select name="status" class="form-select" aria-label="Default select example">
+                                                                                    <option value="accepted" 
                                                                                     {{ $r->status == 'accepted' ? 'selected' : '' }}                                                                                   
                                                                                     >Accept</option>
                                                                                     <option value="declined"
                                                                                     {{ $r->status == 'declined' ? 'selected' : '' }}                                                                                   
                                                                                     >Declined</option>
+                                                                                    <option value="pending"
+                                                                                    {{ $r->status == 'pending' ? 'selected' : '' }}                                                                                   
+                                                                                    >Pending</option>
                                                                                 </select>
+                                                                                <button type="submit" class="btn btn-primary">Save</button>
                                                                             </form>
                                                                         </td>
                                                                     </tr>

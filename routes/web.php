@@ -44,6 +44,11 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/change-password/{id}', [AdminController::class, 'changePassword'])->name('changePassword');
        
         });
+        Route::prefix('review')->name('review.')->group(function () {
+            Route::put('/{id}', [AdminController::class, 'updateReview'])->name('update');
+            
+        });
+
     });
 
 

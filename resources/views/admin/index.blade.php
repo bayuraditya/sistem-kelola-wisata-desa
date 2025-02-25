@@ -246,7 +246,7 @@
                     </tbody>
                 </table>
             </div><br>  
-            <a href="/destinations">See More</a>
+            <a href="/admin/destination">See More</a>
         </div>
     </div>
 
