@@ -42,9 +42,32 @@
                 <input type="number" class="form-control" id="handphone_number" name="handphone_number" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
-            </div>
+                                                        <label for="password" class="form-label">Password</label>
+                                                        <div class="input-group">
+                                                            <input type="password" class="form-control" id="password" name="password" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
+                                                            <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                                                Show
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let passwordInput = document.getElementById('password');
+        let toggleButton = document.getElementById('togglePassword');
+
+        toggleButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = 'Show';
+            }
+        });
+    });
+</script>
+
+
             <div class="mb-3">
                 <label for="formFile" class="form-label">Profile Picture</label>
                 <input class="form-control" type="file" name="profile_picture" id="profile_picture" accept="image/*" >
@@ -83,54 +106,6 @@
                                    <img src="{{ asset('images/' . $u->profile_picture) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
                                </td>
                                 <td>
-                               <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edituser{{$u->id}}">
-                                    Edit
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="editUser{{$u->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User {{$u->email}}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/admin/user/{{$u->id}}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="mb-3">
-                                                        <label for="Name" class="form-label">Name</label>
-                                                        <input type="text" class="form-control" id="name" name="name" value="{{$u->name}}" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="email" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email" value="{{$u->name}}" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="handphone_number" class="form-label">Handphone Number</label>
-                                                        <input type="number" class="form-control" id="handphone_number"  value="{{$u->handphone_number}}" name="handphone_number" >
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="password" class="form-label">Password</label>
-                                                        <input type="password" class="form-control" id="password" name="password" required pattern="^\S(.*\S)?$" title="Cannot start or end with space">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="formFile" class="form-label">Profile Picture</label><br>
-                                                        <img src="{{ asset('images/' . $u->profile_picture) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                                                        {{$u->profile_picture}}
-                                                        <input class="form-control" type="file" name="profile_picture" id="profile_picture" accept="image/*" >
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Save</button>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <form action="{{ route('admin.user.destroy', $u->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

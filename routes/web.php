@@ -39,10 +39,10 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::prefix('profile')->name('profile.')->group(function () {
             Route::get('/', [AdminController::class, 'profile'])->name('index');
-            Route::post('/store', [AdminController::class, 'storeUser'])->name('admin.user.store');
-            Route::get('/{id}', [AdminController::class, 'editUser'])->name('admin.user.edit');
-            Route::put('/{id}', [AdminController::class, 'updateUser'])->name('admin.user.update');
-            Route::delete('/{id}', [AdminController::class, 'destroyUser'])->name('admin.user.destroy');
+            Route::put('/{id}', [AdminController::class, 'updateProfile'])->name('update');
+            Route::get('/change-password', [AdminController::class, 'showChangePasswordForm'])->name('showChangePasswordForm');
+            Route::put('/change-password/{id}', [AdminController::class, 'changePassword'])->name('changePassword');
+       
         });
     });
 

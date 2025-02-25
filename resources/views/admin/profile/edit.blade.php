@@ -14,35 +14,31 @@
             </div>
             @endif
             
-            <form action="/master/profile/update/{{$user->id}}" method="post" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <div class="mb-3">
-      <label for="user_name" class="form-label">Nama </label>
-      <input type="text" class="form-control" id="user_name" name="name" value="{{$user->name}}">
-    </div>
-    <div class="mb-3">
-      <label for="user_name" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}">
-    </div>
-    <div class="mb-3">
-      <label for="user_name" class="form-label">Bidang/Sector</label>
-      <input type="text" class="form-control" id="sector" name="sector" value="{{$user->sector}}">
-    </div>
-    <div class="mb-3">
-      <label for="user_name" class="form-label">Role</label>
-      <input type="text" class="form-control" id="email" name="email" value="{{$user->role}}" disabled>
-    </div>
-    <div class="mb-3">
-                                    <label for="formFile" class="form-label">Foto</label><br>
-                                    <img src="{{ asset('images/' . $user->image) }}" alt="Image" style="max-width: 200px;">
-                                    <br>  {{$user->image}} <br><br>
-                                    <input class="form-control" type="file" id="image" name="image" >
-                                </div>
-    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+            <form action="/admin/profile/{{$user->id}}" method="post" enctype="multipart/form-data">
+              @csrf
+              @method('PUT')
+              <div class="mb-3">
+                <label for="user_name" class="form-label">Nama </label>
+                <input type="text" class="form-control" id="user_name" name="name" value="{{$user->name}}">
+              </div>
+              <div class="mb-3">
+                <label for="user_name" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}">
+              </div>
+              <div class="mb-3">
+                <label for="user_name" class="form-label">Handphone Number</label>
+                <input type="number" class="form-control" id="handphone_number" name="handphone_number" value="{{$user->handphone_number}}">
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Profile Picture</label><br>
+                <img src="{{ asset('images/' . $user->profile_picture) }}" alt="Image" style="max-width: 200px;">
+                <br>  {{$user->profile_picture}} <br><br>
+                <input class="form-control" type="file" id="profile_picture" name="profile_picture" >
+              </div>
+    <button type="submit" class="btn btn-success">Save</button>
   </form>
   <br><br>  
-  <a href="/master/profile/change-password/">Ubah Kata Sandi</a>
+  <a href="/admin/profile/change-password/">Change Password</a>
   
   
 </div>

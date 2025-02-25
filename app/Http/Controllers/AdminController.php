@@ -108,7 +108,7 @@ class AdminController extends Controller
     //     $destination = destination::find($id);
     //     $user = Auth::user();
     //     // dd($destination);
-    //     return view('master.destination.edit', compact('destination','user',,'operator'));
+    //     return view('admin.destination.edit', compact('destination','user',,'operator'));
     }
     public function updatedestination(Request $request, $id){
         $destination = destination::findOrFail($id);
@@ -216,9 +216,78 @@ class AdminController extends Controller
         return redirect()->route('admin.user.index')->with('success', 'User created successfully.');
 
     }
+    // public function updateUser(Request $request,$id){
+    //     $user = User::findOrFail($id);
+    //     $user->name = $request->editName;
+    //     $user->email = $request->editEmail;
+    //     $user->handphone_number = $request->editHandphoneNumber;
+    //     $user->password = Hash::make($request->editPassword);
+    //     if ($request->hasFile('profile_picture')) {
+            
+    //           if ($user->profile_picture && file_exists(public_path($user->profile_picture))) {
+    //             unlink(public_path($user->profile_picture));
+    //         }
+    //         $profilePicture = $request->file('profile_picture');
+    //         $profilePictureName = time() . '_' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
+    //         // Move the image to the desired location
+    //         $profilePicture->move(public_path('images'), $profilePictureName);
+           
+            
+    //         $user->profile_picture = $profilePictureName;
+    //     }
+    //     $user->save();
+    //     return redirect()->route('admin.user.index')->with('success', 'User updated successfully.');
+    // }
+    public function destroyUser($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+       return redirect()->route('admin.user.index')->with('success', 'User Deleted successfully.');
+    }
     public function profile(){
         
         $user = Auth::user();
         return view('admin.profile.edit',compact('user'));
+    }
+    public function updateProfile(Request $request, $id){
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->handphone_number = $request->handphone_number;
+        if ($request->hasFile('profile_picture')) {
+            $profilePicture = $request->file('profile_picture');
+            $profilePictureName = time().'.'.$profilePicture->extension();  // Dapatkan ekstensi file
+            $profilePicture->move(public_path('images'), $profilePictureName);  // Simpan gambar
+            $user->profile_picture = $profilePictureName;
+        }
+        $user->save();
+        return redirect()->route('admin.profile.index')->with('success', 'Profile updated successfully');
+    }
+    public function showChangePasswordForm(){
+        $user = Auth::user();
+        return view('admin.profile.change-password',compact('user'));
+    }
+    public function changePassword(Request $request,$id)
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|different:current_password|confirmed',
+        ], [
+            'new_password.different' => 'The new password must be different from the current password.',
+            'new_password.confirmed' => 'Password confirmation does not match.',
+        ]);
+        // Dapatkan pengguna yang sedang login
+        $user = User::findOrFail($id);
+        // Cek apakah password saat ini cocok dengan yang diinputkan
+        if (!Hash::check($validatedData['current_password'], $user->password)) {
+            // Kembali ke halaman sebelumnya dengan pesan error
+            return redirect()->back()->with('error', 'Wrong Current Password');
+        }
+        // Update password pengguna dengan password baru
+        $user->password = Hash::make($validatedData['new_password']);
+        $user->save();
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('admin.profile.showChangePasswordForm')->with('success', 'Password changed successfully.');
     }
 }
