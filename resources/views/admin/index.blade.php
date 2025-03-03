@@ -216,6 +216,7 @@
                                                                     <td>Name</td>
                                                                     <td>Rating</td>
                                                                     <td>Reviews</td>
+                                                                    <td>Status</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -226,6 +227,15 @@
                                                                         <td>{{$r->name}}</td>
                                                                         <td>{{$r->rating}}</td>
                                                                         <td>{{$r->review}}</td>
+                                                                        <td
+                                                                        @if($r->status == 'accepted')
+                                                                            class="text-success"
+                                                                        @elseif($r->status == 'declined')
+                                                                            class="text-danger"
+                                                                        @elseif($r->status == 'declined')
+                                                                            class="text-warning"
+                                                                        @endif
+                                                                        >{{$r->status}}</td>
 
                                                                     </tr>
                                                                 @endforeach

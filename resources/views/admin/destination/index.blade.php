@@ -103,7 +103,7 @@
                                 <h5>Facilities</h5>
                                 <div class="facility-item">
                                     <label class="form-label">Facility 1</label>
-                                    <input type="text" class="form-control" name="facility[0][name]" required>
+                                    <input type="text" class="form-control" name="facility[0][name]" >
 
                                     <label class="form-label">Facility 1 Description</label>
                                     <input type="text" class="form-control" name="facility[0][description]">
@@ -144,7 +144,7 @@
 
                                         newFacilityDiv.innerHTML = `
                                             <label class="form-label">Facility ${facilityCount + 1}</label>
-                                            <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
+                                            <input type="text" class="form-control" name="facility[${facilityCount}][name]" >
 
                                             <label class="form-label">Facility ${facilityCount + 1} Description</label>
                                             <input type="text" class="form-control" name="facility[${facilityCount}][description]" >
@@ -175,7 +175,7 @@
     <h5>Activities</h5>
     <div class="activity-item">
         <label class="form-label">Activity 1</label>
-        <input type="text" class="form-control" name="activity[0][name]" required>
+        <input type="text" class="form-control" name="activity[0][name]" >
 
         <label class="form-label">Activity 1 Description</label>
         <input type="text" class="form-control" name="activity[0][description]">
@@ -216,7 +216,7 @@
 
             newActivityDiv.innerHTML = `
                 <label class="form-label">Activity ${activityCount + 1}</label>
-                <input type="text" class="form-control" name="activity[${activityCount}][name]" required>
+                <input type="text" class="form-control" name="activity[${activityCount}][name]" >
 
                 <label class="form-label">Activity ${activityCount + 1} Description</label>
                 <input type="text" class="form-control" name="activity[${activityCount}][description]" >
@@ -433,7 +433,8 @@
                                                                     <td>Name</td>
                                                                     <td>Rating</td>
                                                                     <td>Reviews</td>
-                                                                    <td>Action</td>
+                                                                    <td>Status</td>
+                                                                    <td>Edit</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -444,6 +445,15 @@
                                                                         <td>{{$r->name}}</td>
                                                                         <td>{{$r->rating}}</td>
                                                                         <td>{{$r->review}}</td>
+                                                                        <td
+                                                                        @if($r->status == 'accepted')
+                                                                            class="text-success"
+                                                                        @elseif($r->status == 'declined')
+                                                                            class="text-danger"
+                                                                        @elseif($r->status == 'declined')
+                                                                            class="text-warning"
+                                                                        @endif
+                                                                        >{{$r->status}}</td>
                                                                         <td>
                                                                             <form action="/admin/review/{{$r->id}}" method="post">
                                                                                 @csrf
@@ -454,7 +464,7 @@
                                                                                     >Accept</option>
                                                                                     <option value="declined"
                                                                                     {{ $r->status == 'declined' ? 'selected' : '' }}                                                                                   
-                                                                                    >Declined</option>
+                                                                                    >Decline</option>
                                                                                     <option value="pending"
                                                                                     {{ $r->status == 'pending' ? 'selected' : '' }}                                                                                   
                                                                                     >Pending</option>
@@ -476,189 +486,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editDestination{{$d->id}}">
-                                        Edit
-                                    </button>
-                                                            
-                                    <div class="modal fade" id="editDestination{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel"> Edit Destination {{$d->name}} </h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="destination/{{$d->id}}" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <div class="mb-3">
-                                                            <label for="name" class="form-label">Name</label>
-                                                            <input type="text" class="form-control" id="name" name="name" value="{{$d->name}}" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="description" class="form-label">Description</label>
-                                                            <input type="text" class="form-control" id="description" name="description" value="{{$d->description}}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="location" class="form-label">Location</label>
-                                                            <input type="text" class="form-control" id="location" name="location" value="{{$d->location}}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="entry_fee" class="form-label">Entry Fee</label>
-                                                            <input type="number" class="form-control" id="entry_fee" name="entry_fee" value="{{$d->entry_fee}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="opening_time" class="form-label">Opening Time</label>
-                                                            <input type="time" class="form-control" id="opening_time" name="opening_time" value="{{$d->opening_time}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="closed_time" class="form-label">Closed Time</label>
-                                                            <input type="time" class="form-control" id="closed_time" name="closed_time" value="{{$d->closed_time}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="handphone_number" class="form-label">Handphone Number</label>
-                                                            <input type="number" class="form-control" id="handphone_number" name="handphone_number" value="{{$d->handphone_number}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="email" class="form-label">Email</label>
-                                                            <input type="email" class="form-control" id="email" name="email" value="{{$d->email}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="instagram" class="form-label">Instagram</label>
-                                                            <input type="text" class="form-control" id="instagram" name="instagram" value="{{$d->instagram}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="tiktok" class="form-label">Tiktok</label>
-                                                            <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{$d->tiktok}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="facebook" class="form-label">Facebook</label>
-                                                            <input type="text" class="form-control" id="facebook" name="facebook" value="{{$d->facebook}}">
-                                                        </div>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="youtube" class="form-label">Youtube</label>
-                                                            <input type="text" class="form-control" id="youtube" name="youtube" value="{{$d->youtube}}">
-                                                        </div>
-                                                    
-                                                        <div class="mb-3">
-                                                            <label for="category" class="form-label">Category</label>
-                                                            <select class="form-select" name="category" id="category">
-                                                                @foreach($categories as $c) 
-                                                                    <option value="{{$c->id}}"
-                                                                        @if($c->id == $d->category_id)
-                                                                            selected
-                                                                        @endif
-                                                                    >{{$c->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div><br>
-                                                        <!--  -->
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label">Destination Image</label><br>
-                                                            @foreach($d->destinationImages ?? [] as $di)
-                                                                <img src="{{ asset('images/' . $di->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                                                            @endforeach
-                                                            <input class="form-control" type="file" name="image[]" id="images" accept="image/*" multiple>
-                                                        </div>
-                                                        <hr>
-                                                        <div id="editFacilities-container">
-                                                            <h5>Facilities</h5>
-                                                            @foreach($d->facilities ?? [] as $indexEF => $ef)
-                                                                <div class="editFacility-item{{$ef->id}}">
-                                                                    <label class="form-label">Facility {{$indexEF + 1}}</label>
-                                                                    <input type="text" class="form-control" name="facility[{{$indexEF}}][name]" value="{{$ef->name}}" required>
-
-                                                                    <label class="form-label">Facility {{$indexEF + 1}} Description</label>
-                                                                    <input type="text" class="form-control" name="facility[{{$indexEF}}][description]" value="{{$ef->description}}">
-
-                                                                    <label class="form-label mt-2">Facility {{$indexEF + 1}} Image</label><br>
-                                                                    <img src="{{ asset('images/' . $ef->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                                                                    {{$ef->image}}
-                                                                    <input type="file" class="form-control" name="facility[{{$indexEF}}][image]">
-
-                                                                    <button type="button" class="btn btn-danger btn-sm mt-2 remove-editFacility">Delete</button>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                        <button type="button" id="add-editFacility-btn" class="btn btn-primary mt-3">Add More Facility</button>
-                                                            <script>
-                                                                document.addEventListener("DOMContentLoaded", function () {
-                                                                    let editFacilitiesContainer{{ $d->id }} = document.getElementById("editFacilities-container-{{ $d->id }}");
-                                                                    let addEditFacilityBtn{{ $d->id }} = document.getElementById("add-editFacility-btn-{{ $d->id }}");
-                                                                    let editFacilityCount{{ $d->id }} = {{ count($d->facilities ?? []) }};
-
-                                                                    if (addEditFacilityBtn{{ $d->id }}) { // Check if the button exists
-                                                                        addEditFacilityBtn{{ $d->id }}.addEventListener("click", function () {
-                                                                            let newEditFacilityDiv{{ $d->id }} = document.createElement("div");
-                                                                            newEditFacilityDiv{{ $d->id }}.classList.add("editFacility-item", "mt-3");
-
-                                                                            newEditFacilityDiv{{ $d->id }}.innerHTML = `
-                                                                                <label class="form-label">Facility ${editFacilityCount{{ $d->id }} + 1}</label>
-                                                                                <input type="text" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][name]" required>
-
-                                                                                <label class="form-label">Facility ${editFacilityCount{{ $d->id }} + 1} Description</label>
-                                                                                <input type="text" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][description]">
-
-                                                                                <label class="form-label mt-2">Facility ${editFacilityCount{{ $d->id }} + 1} Image</label>
-                                                                                <input type="file" class="form-control" name="facility[${editFacilityCount{{ $d->id }}}][image]">
-
-                                                                                <button type="button" class="btn btn-danger btn-sm mt-2 remove-editFacility">Delete</button>
-                                                                            `;
-
-                                                                            editFacilitiesContainer{{ $d->id }}.appendChild(newEditFacilityDiv{{ $d->id }});
-                                                                            editFacilityCount{{ $d->id }}++;
-
-                                                                            newEditFacilityDiv{{ $d->id }}.querySelector(".remove-editFacility").addEventListener("click", function () {
-                                                                                editFacilitiesContainer{{ $d->id }}.removeChild(newEditFacilityDiv{{ $d->id }});
-                                                                            });
-                                                                        });
-                                                                    }
-
-                                                                    if (editFacilitiesContainer{{ $d->id }}) { //Check if container exists
-                                                                        editFacilitiesContainer{{ $d->id }}.querySelectorAll(".remove-editFacility").forEach(function (button) {
-                                                                            button.addEventListener("click", function (event) {
-                                                                                const facilityDiv = event.target.closest(".editFacility-item");
-                                                                                editFacilitiesContainer{{ $d->id }}.removeChild(facilityDiv);
-                                                                            });
-                                                                        });
-                                                                    }
-                                                                });
-                                                            </script>
-                                                            <hr>
-                                                        <div id="activities-container">
-                                                            <h5>Activities</h5>
-                                                            <div class="activity-item">
-                                                                <label for="editActivity0-name" class="form-label">Activity 1</label>
-                                                                <input type="text" class="form-control" id="editActivity0-name" name="editActivity[0][name]" required>
-
-                                                                <label for="editActivity0-description" class="form-label">Activity 1 Description</label>
-                                                                <input type="text" class="form-control" id="editActivity0-description" name="editActivity[0][description]">
-                                                            
-                                                                <label for="editActivity0-image" class="form-label mt-2">Activity 1 Image</label>
-                                                                <input type="file" class="form-control" id="editActivity0-image" name="editActivity[0][image]">
-                                                            </div>
-                                                        </div>
-                                                        <button type="button" id="add-activity-btn" class="btn btn-primary mt-3">Add More Activity</button>
-
-                                            
-                                                        <br><br>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a href="/admin/destination/{{$d->id}}" type="button" class="btn btn-warning">Edit</a>
                                     <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

@@ -112,13 +112,18 @@ class AdminController extends Controller
                          ->with('success', 'Destination created successfully');
     }
     public function editdestination($id){
-        // $allCourt = Court::all();
-    //     $destination = destination::find($id);
-    //     $user = Auth::user();
-    //     // dd($destination);
-    //     return view('admin.destination.edit', compact('destination','user',,'operator'));
+        $destination = Destination::findOrFail($id);
+        $categories = Category::all();
+        $destinationImage = DestinationImage::where('destination_id', $id)->get();
+        $review = Review::where('destination_id',$id)->get();
+        $facility = Facility::where('destination_id',$id)->get();
+        $activity = Activity::where('destination_id',$id)->get();
+        $user = Auth::user();
+
+        return view('admin.destination.edit', compact('destination','user','categories','facility','activity','destinationImage'));
     }
     public function updatedestination(Request $request, $id){
+        // dd($request);
         $destination = destination::findOrFail($id);
         $destination->name = $request->name;
         $destination->description = $request->description;
@@ -135,22 +140,35 @@ class AdminController extends Controller
         $destination->category_id = $request->category;
         $destination->user_id = Auth::user()->id;
        
-        if ($request->hasFile('image')) {
-            $deletedestinationImage = destinationImage::where('destination_id',$destination->id)->get();
-            foreach($deletedestinationImage as $d){
-                $d->delete();
-            }
-            $images = $request->file('image');
-            foreach($images as $image){
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        // delete destination image lama
+        $deleteDestinationImage = destinationImage::where('destination_id',$destination->id)->get();
+        foreach($deleteDestinationImage as $d){
+            $d->delete();
+        }
+        //upload destination image lama yang tidak dihapus
+        $images1 = $request->destinationImage;
+        foreach($images1 as $image1){
+            $destinationImage = new destinationImage();
+            $destinationImage->image = $image1;
+            $destinationImage->destination_id = $destination->id;
+            $destinationImage->save();
+        }
+
+        //upload destination image baru
+        if ($request->hasFile('newImage')) {
+            $images2 = $request->file('newImage');
+            foreach($images2 as $image2){
+                $imageName = time() . '_' . uniqid() . '.' . $image2->getClientOriginalExtension();
                 // Move the image to the desired location
-                $image->move(public_path('images'), $imageName);
+                $image2->move(public_path('images'), $imageName);
                
-                $destinationImage = new destinationImage();
-                $destinationImage->image = $imageName;
-                $destinationImage->destination_id = $destination->id;
-                $destinationImage->save();
+                $destinationImage2 = new destinationImage();
+                $destinationImage2->image = $imageName;
+                $destinationImage2->destination_id = $destination->id;
+                $destinationImage2->save();
             }
+
+         
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
