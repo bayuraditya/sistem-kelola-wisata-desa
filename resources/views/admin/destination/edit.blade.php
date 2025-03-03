@@ -132,8 +132,10 @@
                         
                         <label class="form-label mt-2">Facility {{$loop->iteration}} Image</label><br>
                         <img src="{{ asset('images/' . $f->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="..." ><br>
-                        {{$f->image}} <br>
-                        <input type="file" class="form-control" name="facility[{{$loop->iteration - 1}}][image]" >
+                        
+                        <input type="text" name="facility[{{$loop->iteration - 1}}][oldImage]" readonly class="form-control" value="{{$f->image}}">
+
+                        <input type="file" class="form-control" name="facility[{{$loop->iteration - 1}}][newImage]" accept="image/*">
                         
                         <button type="button" class="btn btn-danger btn-sm mt-2 remove-facility">Delete</button>
                     </div><br>
@@ -144,80 +146,36 @@
             <hr>
             <div id="activities-container">
                 <h5>Activities</h5>
-                <div class="activity-item">
-                    <label class="form-label">Activity 1</label>
-                    <input type="text" class="form-control" name="activity[0][name]" >
-                    
-                    <label class="form-label">Activity 1 Description</label>
-                    <input type="text" class="form-control" name="activity[0][description]">
-                    
-                    <label class="form-label mt-2">Activity 1 Image</label>
-                    <input type="file" class="form-control" name="activity[0][image]">
-                    
-                    <button type="button" class="btn btn-danger btn-sm mt-2 remove-activity">Delete</button>
-                </div>
+                @foreach($activity as $a)
+                    <div class="activity-item">
+                        <label class="form-label">Activity {{$loop->iteration }}</label>
+                        <input type="text" class="form-control" name="activity[{{$loop->iteration - 1}}][name]" value="{{$a->name}}" >
+                        
+                        <label class="form-label">Activity {{$loop->iteration }} Description</label>
+                        <input type="text" class="form-control" name="activity[{{$loop->iteration - 1}}][description]" value="{{$a->description}}">
+                        
+                        <label class="form-label mt-2">Activity {{$loop->iteration}} Image</label><br>
+                        <img src="{{ asset('images/' . $a->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="..." ><br>
+                       
+                        <input type="text" name="activity[{{$loop->iteration - 1}}][oldImage]" readonly class="form-control" value="{{$a->image}}">
+
+                        <input type="file" class="form-control" name="activity[{{$loop->iteration - 1}}][newImage]" accept="image/*">
+                        <!--  -->
+                        <button type="button" class="btn btn-danger btn-sm mt-2 remove-activity">Delete</button>
+                    </div><br>
+                @endforeach
             </div>
             <button type="button" id="add-activity-btn" class="btn btn-primary mt-3">Add More Activity</button>
-            
+       
             <br><br>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
-<script>document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("facilities-container");
-    const addButton = document.getElementById("add-facility-btn");
-    
-    function updateFacilityIndexes() {
-        const facilities = container.querySelectorAll(".facility-item");
-        facilities.forEach((facility, index) => {
-            const labels = facility.querySelectorAll(".form-label");
-            labels[0].textContent = `Facility ${index + 1}`;
-            labels[1].textContent = `Facility ${index + 1} Description`;
-            labels[2].textContent = `Facility ${index + 1} Image`;
-            
-            facility.querySelectorAll("input").forEach(input => {
-                const nameParts = input.name.match(/^facility\[\d+\]\[(.*?)\]$/);
-                if (nameParts) {
-                    input.name = `facility[${index}][${nameParts[1]}]`;
-                }
-            });
-        });
-    }
-    
-    addButton.addEventListener("click", function () {
-        const facilityCount = container.querySelectorAll(".facility-item").length;
-        
-        const newFacility = document.createElement("div");
-        newFacility.classList.add("facility-item");
-        newFacility.innerHTML = `
-            <label class="form-label">Facility ${facilityCount + 1}</label>
-            <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
-            
-            <label class="form-label">Facility ${facilityCount + 1} Description</label>
-            <input type="text" class="form-control" name="facility[${facilityCount}][description]">
-            
-            <label class="form-label mt-2">Facility ${facilityCount + 1} Image</label><br>
-            <input type="file" class="form-control" name="facility[${facilityCount}][image]">
-            
-            <button type="button" class="btn btn-danger btn-sm mt-2 remove-facility">Delete</button>
-        `;
-        
-        container.appendChild(newFacility);
-        updateFacilityIndexes();
-    });
-    
-    container.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-facility")) {
-            event.target.parentElement.remove();
-            updateFacilityIndexes();
-        }
-    });
-}); 
+<script>
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Facilities
     const facilityContainer = document.getElementById("facilities-container");
     const addFacilityButton = document.getElementById("add-facility-btn");
     
@@ -251,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control" name="facility[${facilityCount}][description]">
             
             <label class="form-label mt-2">Facility ${facilityCount + 1} Image</label><br>
-            <input type="file" class="form-control" name="facility[${facilityCount}][image]">
+            <input type="file" class="form-control" name="facility[${facilityCount}][newImage]" accept="image/*">
             
             <button type="button" class="btn btn-danger btn-sm mt-2 remove-facility">Delete</button>
         `;
@@ -266,8 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
             updateFacilityIndexes();
         }
     });
-    
-    // Activities
+
     const activityContainer = document.getElementById("activities-container");
     const addActivityButton = document.getElementById("add-activity-btn");
     
@@ -300,8 +257,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <label class="form-label">Activity ${activityCount + 1} Description</label>
             <input type="text" class="form-control" name="activity[${activityCount}][description]">
             
-            <label class="form-label mt-2">Activity ${activityCount + 1} Image</label>
-            <input type="file" class="form-control" name="activity[${activityCount}][image]">
+            <label class="form-label mt-2">Activity ${activityCount + 1} Image</label><br>
+            <input type="file" class="form-control" name="activity[${activityCount}][newImage]" accept="image/*">
             
             <button type="button" class="btn btn-danger btn-sm mt-2 remove-activity">Delete</button>
         `;

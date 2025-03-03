@@ -123,6 +123,8 @@ class AdminController extends Controller
         return view('admin.destination.edit', compact('destination','user','categories','facility','activity','destinationImage'));
     }
     public function updatedestination(Request $request, $id){
+        // dd($request->activity[2]['image']);
+        // dd($request->file['activity']);
         // dd($request);
         $destination = destination::findOrFail($id);
         $destination->name = $request->name;
@@ -167,11 +169,54 @@ class AdminController extends Controller
                 $destinationImage2->destination_id = $destination->id;
                 $destinationImage2->save();
             }
-
-         
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
+        
+        $deleteFacility = Facility::where('destination_id',$destination->id)->get();
+        foreach($deleteFacility ?? []  as $df){
+            $df->delete();
+        }
+        foreach($request->facility ?? [] as $f){
+            $facility = new Facility();
+            $facility->name = $f['name'];
+            $facility->description = $f['description'];
+            
+            if(isset($f['newImage'])){
+                // dd($request);
+                $facilityImage = $f['newImage'];
+                $facilityImageName = time() . '_' . uniqid() . '.' . $facilityImage->getClientOriginalExtension();
+                // Move the image to the desired location
+                $facilityImage->move(public_path('images'), $facilityImageName);
+                $facility->image = $facilityImageName;
+            }elseif(isset($f['oldImage'])){
+                $facility->image = $f['oldImage'];
+            }
+            $facility->destination_id = $destination->id;
+            $facility->save();
+        } 
+
+        $deleteActivity = Activity::where('destination_id',$destination->id)->get();
+        foreach($deleteActivity ?? []  as $da){
+            $da->delete();
+        }
+        foreach($request->activity ?? [] as $a){
+            $activity = new Activity();
+            $activity->name = $a['name'];
+            $activity->description = $a['description'];
+            
+            if(isset($a['newImage'])){
+                $activityImage = $a['newImage'];
+                $activityImageName = time() . '_' . uniqid() . '.' . $activityImage->getClientOriginalExtension();
+                // Move the image to the desired location
+                $activityImage->move(public_path('images'), $activityImageName);
+                $activity->image = $activityImageName;
+            }elseif(isset($a['oldImage'])){
+                $activity->image = $f['oldImage'];
+            }
+            $activity->destination_id = $destination->id;
+            $activity->save();
+        } 
         $destination->save();
 
         return redirect()->route('admin.destination.index')
