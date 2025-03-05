@@ -17,7 +17,8 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" value="{{$destination->description}}">
+                <textarea class="form-control" id="description" name="description" >{{$destination->description}}</textarea>
+
             </div>
 
             <div class="mb-3">
@@ -125,11 +126,11 @@
                 @foreach($facility as $f)
                     <div class="facility-item">
                         <label class="form-label">Facility {{$loop->iteration }}</label>
-                        <input type="text" class="form-control" name="facility[{{$loop->iteration - 1}}][name]" value="{{$f->name}}" >
+                        <input type="text" class="form-control" name="facility[{{$loop->iteration - 1}}][name]" value="{{$f->name}}" required>
                         
                         <label class="form-label">Facility {{$loop->iteration }} Description</label>
-                        <input type="text" class="form-control" name="facility[{{$loop->iteration - 1}}][description]" value="{{$f->description}}">
-                        
+                       
+                        <textarea class="form-control" name="facility[{{$loop->iteration - 1}}][description]" >{{$f->description}}</textarea>
                         <label class="form-label mt-2">Facility {{$loop->iteration}} Image</label><br>
                         <img src="{{ asset('images/' . $f->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="..." ><br>
                         
@@ -149,10 +150,10 @@
                 @foreach($activity as $a)
                     <div class="activity-item">
                         <label class="form-label">Activity {{$loop->iteration }}</label>
-                        <input type="text" class="form-control" name="activity[{{$loop->iteration - 1}}][name]" value="{{$a->name}}" >
+                        <input type="text" class="form-control" name="activity[{{$loop->iteration - 1}}][name]" value="{{$a->name}}" required>
                         
                         <label class="form-label">Activity {{$loop->iteration }} Description</label>
-                        <input type="text" class="form-control" name="activity[{{$loop->iteration - 1}}][description]" value="{{$a->description}}">
+                        <textarea class="form-control" name="activity[{{$loop->iteration - 1}}][description]">{{$a->description}}</textarea>
                         
                         <label class="form-label mt-2">Activity {{$loop->iteration}} Image</label><br>
                         <img src="{{ asset('images/' . $a->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="..." ><br>
@@ -206,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
             
             <label class="form-label">Facility ${facilityCount + 1} Description</label>
-            <input type="text" class="form-control" name="facility[${facilityCount}][description]">
+            <textarea class="form-control" name="facility[${facilityCount}][description]"></textarea>
             
             <label class="form-label mt-2">Facility ${facilityCount + 1} Image</label><br>
             <input type="file" class="form-control" name="facility[${facilityCount}][newImage]" accept="image/*">
@@ -255,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control" name="activity[${activityCount}][name]" required>
             
             <label class="form-label">Activity ${activityCount + 1} Description</label>
-            <input type="text" class="form-control" name="activity[${activityCount}][description]">
+            <textarea class="form-control" name="activity[${activityCount}][description]"></textarea>
             
             <label class="form-label mt-2">Activity ${activityCount + 1} Image</label><br>
             <input type="file" class="form-control" name="activity[${activityCount}][newImage]" accept="image/*">

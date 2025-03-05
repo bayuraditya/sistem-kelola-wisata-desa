@@ -37,7 +37,7 @@
             <h4>Destinations</h4>
             <br>
             <div class="table-responsive">
-            <table class="table table-bordered " id="tableDestination">
+                <table class="table    " id="tableDestination">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -57,16 +57,28 @@
                             <td>Images</td>
                             <td>Activities</td>
                             <td>Reviews</td>
-                            <td>Action</td>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($destinations as $d)
+                      
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td >{{$d->name}}</td>
-                                <td >{{$d->description}}</td>
-                                <td >{{$d->location}}</td>
+                                <td style="  max-width: 400px; /* Sesuaikan dengan kebutuhan */
+                                            overflow: hidden;
+                                            text-overflow: ellipsis; /* Tambahkan ... jika teks terpotong */
+                                            white-space: nowrap; /* Hindari pemisahan baris */">
+                                    {{$d->description}} <br>
+                                    @if(strlen($d->description) > 50)
+                                    <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#desc{{$d->id}}">
+                                        Read More
+                                    </button>
+                                  
+                                    @endif
+                                
+                                </td>
+                                <td style="  max-width: 400px;">{{$d->location}}</td>
                                 <td >{{$d->entry_fee}}</td>
                                 <td >{{$d->opening_time}}</td>
                                 <td >{{$d->closed_time}}</td>
@@ -314,19 +326,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <a href="/admin/destination/{{$d->id}}" type="button" class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input onclick="return confirm('Are you sure you want delete destination {{ $d->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
-                                    </form>
-                                </td>
-                            </tr>
+                                                            </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div><br>  
+            </div>
+            <br>  
             <a href="/admin/destination">See More</a>
         </div>
     </div>

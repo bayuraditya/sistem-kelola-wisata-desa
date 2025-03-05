@@ -34,7 +34,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description">
+                                <textarea class="form-control" id="description" name="description"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
@@ -106,7 +106,7 @@
                                     <input type="text" class="form-control" name="facility[0][name]" required>
 
                                     <label class="form-label">Facility 1 Description</label>
-                                    <input type="text" class="form-control" name="facility[0][description]">
+                                    <textarea class="form-control" name="facility[0][description]""></textarea>
 
                                     <label class="form-label mt-2">Facility 1 Image</label>
                                     <input type="file" class="form-control" name="facility[0][image]" accept="image/*">
@@ -147,7 +147,7 @@
                                             <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
 
                                             <label class="form-label">Facility ${facilityCount + 1} Description</label>
-                                            <input type="text" class="form-control" name="facility[${facilityCount}][description]" >
+                                            <textarea class="form-control" name="facility[${facilityCount}][description]" ></textarea>
 
                                             <label class="form-label mt-2">Facility ${facilityCount + 1} Image</label>
                                             <input type="file" class="form-control" name="facility[${facilityCount}][image]" >
@@ -178,7 +178,7 @@
         <input type="text" class="form-control" name="activity[0][name]" required>
 
         <label class="form-label">Activity 1 Description</label>
-        <input type="text" class="form-control" name="activity[0][description]">
+        <textarea class="form-control" name="activity[0][description]"></textarea>
 
         <label class="form-label mt-2">Activity 1 Image</label>
         <input type="file" class="form-control" name="activity[0][image]" accept="image/*">
@@ -219,7 +219,7 @@
                 <input type="text" class="form-control" name="activity[${activityCount}][name]" required>
 
                 <label class="form-label">Activity ${activityCount + 1} Description</label>
-                <input type="text" class="form-control" name="activity[${activityCount}][description]" >
+                <textarea class="form-control" name="activity[${activityCount}][description]" ></textarea>
 
                 <label class="form-label mt-2">Activity ${activityCount + 1} Image</label>
                 <input type="file" class="form-control" name="activity[${activityCount}][image]" >
@@ -250,10 +250,14 @@
                 </div>
             </div>
         </div>
+        <style>     
+    
 
+
+        </style>
         <br><br>
             <div class="table-responsive">
-                <table class="table table-bordered  align-middle" id="tableDestination">
+                <table class="table    " id="tableDestination">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -278,11 +282,24 @@
                     </thead>
                     <tbody>
                         @foreach($destinations as $d)
+                      
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td >{{$d->name}}</td>
-                                <td >{{$d->description}}</td>
-                                <td >{{$d->location}}</td>
+                                <td style="  max-width: 400px; /* Sesuaikan dengan kebutuhan */
+                                            overflow: hidden;
+                                            text-overflow: ellipsis; /* Tambahkan ... jika teks terpotong */
+                                            white-space: nowrap; /* Hindari pemisahan baris */">
+                                    {{$d->description}} <br>
+                                    @if(strlen($d->description) > 50)
+                                    <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#desc{{$d->id}}">
+                                        Read More
+                                    </button>
+                                  
+                                    @endif
+                                
+                                </td>
+                                <td style="  max-width: 400px;">{{$d->location}}</td>
                                 <td >{{$d->entry_fee}}</td>
                                 <td >{{$d->opening_time}}</td>
                                 <td >{{$d->closed_time}}</td>
@@ -531,12 +548,15 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="/admin/destination/{{$d->id}}" type="button" class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input onclick="return confirm('Are you sure you want delete destination {{ $d->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
-                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="/admin/destination/{{$d->id}}" type="button" class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input onclick="return confirm('Are you sure you want delete destination {{ $d->name }} ?')" 
+                                                type="submit" class="btn btn-danger" value="DELETE">
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -547,7 +567,24 @@
     </div>
 
 
-
+    @foreach($destinations as $d)
+                        <div class="modal fade" id="desc{{$d->id}}" tabindex="-1" aria-labelledby="descLabel{{$d->id}}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="descLabel{{$d->id}}">{{$d->name}} Description</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        {{$d->description}}
+                                                        </p>
+                                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS (CDN) -->

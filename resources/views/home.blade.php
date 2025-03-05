@@ -30,7 +30,16 @@
             </div>
         </div>
     </section>
-
+<style>
+    .clamp-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Batasi hingga 2 baris */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+}
+</style>
     <!-- Destinasi Wisata -->
     <section id="destinations" class="py-5">
         <div class="container">
@@ -47,7 +56,8 @@
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{$d->name}}</h5>
-                                <p class="card-text">{{$d->description}}</p>
+                                <p class="card-text clamp-text ">{{$d->description}}</p>
+
                             </div>
                         </div>
                     </a>
@@ -80,7 +90,7 @@
             <h2 class="text-center mb-4">Contact</h2>
             <p class="text-center">Contact us for more information.</p>
             <div class="text-center">
-                <a href="#" class="btn btn-success">Contact Us</a>
+                <a href="/contact" class="btn btn-success">Contact Us</a>
             </div>
         </div>
     </section>

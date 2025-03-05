@@ -20,9 +20,15 @@
     <!-- <link rel="stylesheet" href="{{asset('./assets/compiled/css/app-dark.css')}}" /> -->
     <link rel="icon" type="image/png" href="{{ asset('images/logo.jpg') }}">
  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
-
-<body>    
+<body>
+    <style>
+        *{
+            font-family: "Inter", sans-serif;
+        }
+    </style> 
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
         <div id="sidebar">
