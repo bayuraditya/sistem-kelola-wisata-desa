@@ -20,10 +20,17 @@ class DestinationImageSeeder extends Seeder
         $destinationIds = Destination::pluck('id')->toArray();
 
         // Buat 10 gambar dummy
-        for ($i = 0; $i < 10; $i++) {
+        // for ($i = 0; $i < 10; $i++) {
+        //     DestinationImage::create([
+        //         'image'          => '1741009369_67c5b1d94a913.avif',
+        //         'destination_id' => $faker->randomElement($destinationIds), // Ambil secara acak
+        //     ]);
+        // }
+
+        foreach($destinationIds as $d){
             DestinationImage::create([
-                'image'          => '1740226643_67b9c0532836d.jfif',
-                'destination_id' => $faker->randomElement($destinationIds), // Ambil secara acak
+                'image'          => '1741009369_67c5b1d94a913.avif',
+                'destination_id' => $d// Ambil secara acak
             ]);
         }
     }

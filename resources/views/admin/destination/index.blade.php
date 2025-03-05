@@ -103,13 +103,13 @@
                                 <h5>Facilities</h5>
                                 <div class="facility-item">
                                     <label class="form-label">Facility 1</label>
-                                    <input type="text" class="form-control" name="facility[0][name]" >
+                                    <input type="text" class="form-control" name="facility[0][name]" required>
 
                                     <label class="form-label">Facility 1 Description</label>
                                     <input type="text" class="form-control" name="facility[0][description]">
 
                                     <label class="form-label mt-2">Facility 1 Image</label>
-                                    <input type="file" class="form-control" name="facility[0][image]">
+                                    <input type="file" class="form-control" name="facility[0][image]" accept="image/*">
 
                                     <button type="button" class="btn btn-danger btn-sm mt-2 remove-facility">Delete</button>
                                 </div>
@@ -144,7 +144,7 @@
 
                                         newFacilityDiv.innerHTML = `
                                             <label class="form-label">Facility ${facilityCount + 1}</label>
-                                            <input type="text" class="form-control" name="facility[${facilityCount}][name]" >
+                                            <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
 
                                             <label class="form-label">Facility ${facilityCount + 1} Description</label>
                                             <input type="text" class="form-control" name="facility[${facilityCount}][description]" >
@@ -175,13 +175,13 @@
     <h5>Activities</h5>
     <div class="activity-item">
         <label class="form-label">Activity 1</label>
-        <input type="text" class="form-control" name="activity[0][name]" >
+        <input type="text" class="form-control" name="activity[0][name]" required>
 
         <label class="form-label">Activity 1 Description</label>
         <input type="text" class="form-control" name="activity[0][description]">
 
         <label class="form-label mt-2">Activity 1 Image</label>
-        <input type="file" class="form-control" name="activity[0][image]">
+        <input type="file" class="form-control" name="activity[0][image]" accept="image/*">
 
         <button type="button" class="btn btn-danger btn-sm mt-2 remove-activity">Delete</button>
     </div>
@@ -216,7 +216,7 @@
 
             newActivityDiv.innerHTML = `
                 <label class="form-label">Activity ${activityCount + 1}</label>
-                <input type="text" class="form-control" name="activity[${activityCount}][name]" >
+                <input type="text" class="form-control" name="activity[${activityCount}][name]" required>
 
                 <label class="form-label">Activity ${activityCount + 1} Description</label>
                 <input type="text" class="form-control" name="activity[${activityCount}][description]" >
@@ -253,7 +253,7 @@
 
         <br><br>
             <div class="table-responsive">
-                <table class="table table-bordered" id="tableDestination">
+                <table class="table table-bordered  align-middle" id="tableDestination">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -265,12 +265,10 @@
                             <td>Closed Time</td>
                             <td>Handphone Number</td>
                             <td>Email</td>
-                            <td>Instagram</td>
-                            <td>Tiktok</td>
-                            <td>Facebook</td>
-                            <td>Youtube</td>
+                            
                             <td>Category</td>
                             <td>Created By</td>
+                            <td>Social Media</td>
                             <td>Facilities</td>
                             <td>Images</td>
                             <td>Activities</td>
@@ -282,20 +280,67 @@
                         @foreach($destinations as $d)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$d->name}}</td>
-                                <td>{{$d->description}}</td>
-                                <td>{{$d->location}}</td>
-                                <td>{{$d->entry_fee}}</td>
-                                <td>{{$d->opening_time}}</td>
-                                <td>{{$d->closed_time}}</td>
-                                <td>{{$d->handphone_number}}</td>
-                                <td>{{$d->email}}</td>
-                                <td>{{$d->instagram}}</td>
-                                <td>{{$d->tiktok}}</td>
-                                <td>{{$d->facebook}}</td>
-                                <td>{{$d->youtube}}</td>
+                                <td >{{$d->name}}</td>
+                                <td >{{$d->description}}</td>
+                                <td >{{$d->location}}</td>
+                                <td >{{$d->entry_fee}}</td>
+                                <td >{{$d->opening_time}}</td>
+                                <td >{{$d->closed_time}}</td>
+                                <td >{{$d->handphone_number}}</td>
+                                <td >{{$d->email}}</td>
+                           
                                 <td>{{ optional($d->category)->name ?? '' }}</td>
                                 <td>{{$d->user->name}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#socialMedia{{$d->id}}">
+                                        Social Media
+                                    </button>
+
+                                    <div class="modal fade" id="socialMedia{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Social Media</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td>Social Media</td>
+                                                                    <td>Username</td>
+                                                                </tr>
+                                                            </thead>    
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Instagram</td>
+                                                                    <td>{{$d->instagram}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Facebook</td>
+                                                                    <td>{{$d->facebook}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tiktok</td>
+                                                                    <td>{{$d->tiktok}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Youtube</td>
+                                                                    <td>{{$d->youtube}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>        
+                                                    </div>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facilities{{$d->id}}">
                                         Facilities

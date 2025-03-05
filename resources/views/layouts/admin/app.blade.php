@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{asset('./assets/compiled/css/table-datatable.css')}}" />
     <link rel="stylesheet" href="{{asset('./assets/compiled/css/app.css')}}" />
     <!-- <link rel="stylesheet" href="{{asset('./assets/compiled/css/app-dark.css')}}" /> -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.jpg') }}">
  
 </head>
 
@@ -29,7 +30,7 @@
           <div class="sidebar-header position-relative">
               <div class="d-flex justify-content-between align-items-center">
                   <div class="logo d-inline-flex">
-                      <a class="my-auto py-auto px-1" href="/"><h4 class="my-auto py-auto">Desa ...</h4></a>
+                      <a class="my-auto py-auto px-1" href="/"><h4 class="my-auto py-auto">Belalang Tourism</h4></a>
                     </div>
                   
             </div>
@@ -101,11 +102,11 @@
         <footer>
           <div class="footer clearfix mb-0 text-muted">
             <div class="float-start">
-              <p>2024 © Desa ...</p>
+              <p>2024 © Desa Belalang</p>
             </div>
             <div class="float-end">
               <p>
-                Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span> by <a href="https://pelabuhanserangan.com">DESA ....</a>
+                Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span> by <a href="https://belalang-tourism.com">DESA BELALANG</a>
               </p>
             </div>
           </div>

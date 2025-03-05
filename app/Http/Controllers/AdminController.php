@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function index(){
+     
         $user = Auth::user();
         $totalDestinations = Destination::count();
         $totalCategories = Category::count();
         $totalUsers = User::count();
         $destinations = Destination::with('user', 'destinationImages', 'category', 'facilities', 'reviews')
-    ->take(5) // Ambil 5 data saja
-    ->get();
+        ->take(5) // Ambil 5 data saja
+        ->get();
 
         return view('admin.index',compact('user','totalDestinations','totalCategories','totalUsers','destinations'));
     }
@@ -148,13 +149,26 @@ class AdminController extends Controller
             $d->delete();
         }
         //upload destination image lama yang tidak dihapus
-        $images1 = $request->destinationImage;
-        foreach($images1 as $image1){
-            $destinationImage = new destinationImage();
-            $destinationImage->image = $image1;
-            $destinationImage->destination_id = $destination->id;
-            $destinationImage->save();
-        }
+        // $images1 = $request->destinationImage;
+        // foreach($images1 as $image1){
+        //     $destinationImage = new destinationImage();
+        //     $destinationImage->image = $image1;
+        //     $destinationImage->destination_id = $destination->id;
+        //     $destinationImage->save();
+        // }
+        
+        if (!empty($request->destinationImage) && is_array($request->destinationImage)) {
+            foreach ($request->destinationImage as $image1) {
+                $destinationImage = new DestinationImage();
+                $destinationImage->image = $image1; 
+                $destinationImage->destination_id = $destination->id;
+                $destinationImage->save();
+            }
+        } 
+
+        
+
+
 
         //upload destination image baru
         if ($request->hasFile('newImage')) {
@@ -212,11 +226,12 @@ class AdminController extends Controller
                 $activityImage->move(public_path('images'), $activityImageName);
                 $activity->image = $activityImageName;
             }elseif(isset($a['oldImage'])){
-                $activity->image = $f['oldImage'];
+                $activity->image = $a['oldImage'];
             }
             $activity->destination_id = $destination->id;
             $activity->save();
         } 
+        
         $destination->save();
 
         return redirect()->route('admin.destination.index')

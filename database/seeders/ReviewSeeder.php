@@ -22,7 +22,7 @@ class ReviewSeeder extends Seeder
                 'rating' => $faker->numberBetween(1, 5),
                 'review' => $faker->sentence(10),
                 'status' => $faker->randomElement(['declined', 'accepted','pending']),
-                'destination_id' => $faker->numberBetween(1, 2), // Sesuaikan dengan jumlah destinasi yang ada
+                'destination_id' => $faker->numberBetween(1, 10), // Sesuaikan dengan jumlah destinasi yang ada
             ]);
         }
     }

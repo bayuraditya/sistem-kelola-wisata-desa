@@ -37,7 +37,7 @@
             <h4>Destinations</h4>
             <br>
             <div class="table-responsive">
-                <table class="table table-bordered" id="tableDestination">
+            <table class="table table-bordered " id="tableDestination">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -49,36 +49,82 @@
                             <td>Closed Time</td>
                             <td>Handphone Number</td>
                             <td>Email</td>
-                            <td>Instagram</td>
-                            <td>Tiktok</td>
-                            <td>Facebook</td>
-                            <td>Youtube</td>
+                            
                             <td>Category</td>
                             <td>Created By</td>
+                            <td>Social Media</td>
                             <td>Facilities</td>
                             <td>Images</td>
                             <td>Activities</td>
                             <td>Reviews</td>
+                            <td>Action</td>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($destinations as $d)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$d->name}}</td>
-                                <td>{{$d->description}}</td>
-                                <td>{{$d->location}}</td>
-                                <td>{{$d->entry_fee}}</td>
-                                <td>{{$d->opening_time}}</td>
-                                <td>{{$d->closed_time}}</td>
-                                <td>{{$d->handphone_number}}</td>
-                                <td>{{$d->email}}</td>
-                                <td>{{$d->instagram}}</td>
-                                <td>{{$d->tiktok}}</td>
-                                <td>{{$d->facebook}}</td>
-                                <td>{{$d->youtube}}</td>
+                                <td >{{$d->name}}</td>
+                                <td >{{$d->description}}</td>
+                                <td >{{$d->location}}</td>
+                                <td >{{$d->entry_fee}}</td>
+                                <td >{{$d->opening_time}}</td>
+                                <td >{{$d->closed_time}}</td>
+                                <td >{{$d->handphone_number}}</td>
+                                <td >{{$d->email}}</td>
+                           
                                 <td>{{ optional($d->category)->name ?? '' }}</td>
                                 <td>{{$d->user->name}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#socialMedia{{$d->id}}">
+                                        Social Media
+                                    </button>
+
+                                    <div class="modal fade" id="socialMedia{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Social Media</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td>Social Media</td>
+                                                                    <td>Username</td>
+                                                                </tr>
+                                                            </thead>    
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Instagram</td>
+                                                                    <td>{{$d->instagram}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Facebook</td>
+                                                                    <td>{{$d->facebook}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tiktok</td>
+                                                                    <td>{{$d->tiktok}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Youtube</td>
+                                                                    <td>{{$d->youtube}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>        
+                                                    </div>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facilities{{$d->id}}">
                                         Facilities
@@ -217,6 +263,7 @@
                                                                     <td>Rating</td>
                                                                     <td>Reviews</td>
                                                                     <td>Status</td>
+                                                                    <td>Edit</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -236,7 +283,24 @@
                                                                             class="text-warning"
                                                                         @endif
                                                                         >{{$r->status}}</td>
-
+                                                                        <td>
+                                                                            <form action="/admin/review/{{$r->id}}" method="post">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <select name="status" class="form-select" aria-label="Default select example">
+                                                                                    <option value="accepted" 
+                                                                                    {{ $r->status == 'accepted' ? 'selected' : '' }}                                                                                   
+                                                                                    >Accept</option>
+                                                                                    <option value="declined"
+                                                                                    {{ $r->status == 'declined' ? 'selected' : '' }}                                                                                   
+                                                                                    >Decline</option>
+                                                                                    <option value="pending"
+                                                                                    {{ $r->status == 'pending' ? 'selected' : '' }}                                                                                   
+                                                                                    >Pending</option>
+                                                                                </select>
+                                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                            </form>
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
@@ -250,7 +314,14 @@
                                         </div>
                                     </div>
                                 </td>
-                               
+                                <td>
+                                    <a href="/admin/destination/{{$d->id}}" type="button" class="btn btn-warning">Edit</a>
+                                    <form action="{{ route('admin.destination.destroy',['id' => $d->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input onclick="return confirm('Are you sure you want delete destination {{ $d->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GuestController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
+Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::get('destination/{id}', [GuestController::class, 'destination']);
+Route::get('destinations', [GuestController::class, 'destinations']);
+Route::get('galleries', [GuestController::class, 'galleries']);
+Route::get('about-us', [GuestController::class, 'aboutUs']);
+Route::get('contact', [GuestController::class, 'contact']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

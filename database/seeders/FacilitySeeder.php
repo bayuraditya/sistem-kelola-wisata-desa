@@ -24,7 +24,7 @@ class FacilitySeeder extends Seeder
             Facility::create([
                 'name'           => $faker->sentence(3),
                 'description'    => $faker->paragraph,
-                'image'          => '1740231944_67b9d508bca11.png',
+                'image'          => '1741009369_67c5b1d94a913.avif',
                 'destination_id' => $faker->randomElement($destinationIds),
             ]);
         }
