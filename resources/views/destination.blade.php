@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <!-- Kolom Kiri -->
-                <div class="col-md-6">
+                <div class="col-md-7">
                     @if(isset($destination) && $destination->destinationImages->isNotEmpty())
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                             <!-- Carousel Indicators -->
@@ -27,7 +27,7 @@
                             <div class="carousel-inner">
                                 @foreach($destination->destinationImages as $index => $i)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                        <img style="width: 100%; height: 500px; object-fit: cover; border-radius: 10px;" 
+                                        <img style="width: 100%; height: 550px; object-fit: cover; border-radius: 10px;" 
                                              src="{{ asset('images/' . $i->image) }}" 
                                              class="d-block " 
                                              alt="{{ $i->image }}">
@@ -51,7 +51,7 @@
                 </div>
 
                 <!-- Kolom Kanan -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <h2 class="fw-bold">{{$destination->name}}</h2>
                     <p class="text-secondary" style="text-align: justify;">
                         {{$destination->description}}
@@ -145,11 +145,74 @@
     </section>
  <br><br>
  <section>
-        <div class="container"  >
-            <h2 class="text-center mb-4">Social media</h2><br>
-            
-        </div>
-    </section>
+    <div class="container text-center">
+        <h2 class="mb-4">Social Media</h2>
+        <ul class="d-flex list-unstyled justify-content-center gap-4">
+            @if($destination->instagram)
+                <li>
+                    <a href="https://instagram.com/{{$destination->instagram}}" target="_blank" class="social-link">
+                        <i class="fa-brands fa-instagram"></i>  {{$destination->instagram}}
+                    </a>
+                </li>
+            @endif
+            @if($destination->youtube)
+                <li>
+                    <a href="https://youtube.com/{{$destination->youtube}}" target="_blank" class="social-link">
+                        <i class="fa-brands fa-youtube"></i>  {{$destination->youtube}}
+                    </a>
+                </li>
+            @endif
+       
+            @if($destination->facebook)
+                <li>
+                    <a href="https://id-id.facebook.com/public/{{$destination->facebook}}" target="_blank" class="social-link">
+                        <i class="fa-brands fa-facebook"></i>  {{$destination->facebook}}
+                    </a>
+                </li>
+            @endif
+            @if($destination->tiktok)
+                <li>
+                    <a href="https://tiktok.com/{{$destination->tiktok}}" target="_blank" class="social-link">
+                        <i class="fa-brands fa-tiktok"></i> {{$destination->tiktok}}
+                    </a>
+                </li>
+            @endif
+            @if($destination->handphone_number)
+                <li>
+                    <a href="https://wa.me/{{$destination->handphone_number}}" class="social-link">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        {{$destination->handphone_number}}
+                    </a>
+                </li>
+            @endif
+            @if($destination->email)
+                <li>
+                    <a href="mailto:{{$destination->email}}" class="social-link">
+                        <i class="fa-solid fa-envelope"></i> {{$destination->email}}
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </div>
+</section>
+<style>.social-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-link i {
+    font-size: 22px;
+}
+
+.social-link:hover {
+    color: #007bff;
+}
+</style>
     <br><br>
     
    

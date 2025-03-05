@@ -336,6 +336,24 @@
         </div>
     </div>
 
+    @foreach($destinations as $d)
+                        <div class="modal fade" id="desc{{$d->id}}" tabindex="-1" aria-labelledby="descLabel{{$d->id}}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="descLabel{{$d->id}}">{{$d->name}} Description</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        {{$d->description}}
+                                                        </p>
+                                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS (CDN) -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
