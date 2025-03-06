@@ -56,21 +56,52 @@
                 @endforeach
             </div>
         </div>
-    </section>
+    </section><script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const destinationList = document.getElementById("destinationList");
+        const destinationItems = document.querySelectorAll(".destination-item");
 
-    <script>
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            let searchValue = this.value.toLowerCase();
-            let destinations = document.querySelectorAll('.destination-item');
-            
-            destinations.forEach(function(destination) {
-                let title = destination.querySelector('.card-title').textContent.toLowerCase();
-                if (title.includes(searchValue)) {
-                    destination.style.display = 'block';
+        // Elemen untuk pesan jika tidak ada hasil
+        const noResultsMessage = document.createElement("div");
+        noResultsMessage.classList.add("text-center", "mt-3");
+        noResultsMessage.innerHTML = "<h5>No destinations found.</h5>";
+        noResultsMessage.style.display = "none";
+        destinationList.appendChild(noResultsMessage);
+
+        searchInput.addEventListener("input", function () {
+            const query = searchInput.value.toLowerCase();
+            let hasResults = false;
+
+            destinationItems.forEach(item => {
+                const title = item.querySelector(".card-title").textContent.toLowerCase();
+                if (title.includes(query)) {
+                    item.style.visibility = "visible";  
+                    item.style.height = "auto";  
+                    hasResults = true;
                 } else {
-                    destination.style.display = 'none';
+                    item.style.visibility = "hidden";  
+                    item.style.height = "0";  
                 }
             });
+
+            noResultsMessage.style.display = hasResults ? "none" : "block";
         });
-    </script>
+    });
+</script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 @endsection

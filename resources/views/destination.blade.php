@@ -198,8 +198,8 @@
         @endif
     </ul>
 </div>
-
 </section>
+
 <style>.social-link {
     text-decoration: none;
     color: #333;
@@ -220,72 +220,68 @@
 </style>
     <br><br>
     <section>
-    
-
         <div class="container text-center">
             <div class="container ">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Give a Review
-    </button><br><br>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Give a Review</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form method="post" action="/addReview/{{$destination->id}}">
-        @csrf
-          <div class="mb-3">
-            <label for="name" class="col-form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name">
-          </div>
-          <div class="mb-3">
-            <label for="email" class="col-form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email">
-          </div>
-          <div class="mb-3">
-        <label class="form-label">Your Rating</label>
-        <div class="rating">
-            <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
-            <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
-            <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
-            <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-            <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
-        </div>
-    </div>
-    <style>
-        .rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    gap: 5px;
-}
+                Give a Review
+            </button><br><br>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Give a Review</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form method="post" action="/addReview/{{$destination->id}}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                    <label class="form-label">Your Rating</label>
+                    <div class="rating">
+                        <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+                        <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+                        <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+                        <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+                        <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+                    </div>
+                </div>
+                <style>
+                    .rating {
+                        display: flex;
+                        flex-direction: row-reverse;
+                        justify-content: center;
+                        gap: 5px;
+                    }
 
-.rating input {
-    display: none;
-}
+                    .rating input {
+                        display: none;
+                    }
 
-.rating label {
-    font-size: 30px;
-    color: gray;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.rating input:checked ~ label,
-.rating label:hover,
-.rating label:hover ~ label {
-    color: gold;
-}
-
-    </style>
+                    .rating label {
+                        font-size: 30px;
+                        color: gray;
+                        cursor: pointer;
+                        transition: color 0.3s;
+                    }
+                    .rating input:checked ~ label,
+                    .rating label:hover,
+                    .rating label:hover ~ label {
+                        color: gold;
+                    }
+                </style>
           <div class="mb-3">
             <label for="message-text" class="col-form-label">Review</label>
             <textarea class="form-control" id="review" name="review"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     
