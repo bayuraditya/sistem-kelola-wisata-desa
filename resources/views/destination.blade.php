@@ -145,55 +145,60 @@
     </section>
  <br><br>
  <section>
-    <div class="container text-center">
-        <h2 class="mb-4">Social Media</h2>
-        <ul class="d-flex list-unstyled justify-content-center gap-4">
-            @if($destination->instagram)
-                <li>
-                    <a href="https://instagram.com/{{$destination->instagram}}" target="_blank" class="social-link">
-                        <i class="fa-brands fa-instagram"></i>  {{$destination->instagram}}
-                    </a>
-                </li>
-            @endif
-            @if($destination->youtube)
-                <li>
-                    <a href="https://youtube.com/{{$destination->youtube}}" target="_blank" class="social-link">
-                        <i class="fa-brands fa-youtube"></i>  {{$destination->youtube}}
-                    </a>
-                </li>
-            @endif
-       
-            @if($destination->facebook)
-                <li>
-                    <a href="https://id-id.facebook.com/public/{{$destination->facebook}}" target="_blank" class="social-link">
-                        <i class="fa-brands fa-facebook"></i>  {{$destination->facebook}}
-                    </a>
-                </li>
-            @endif
-            @if($destination->tiktok)
-                <li>
-                    <a href="https://tiktok.com/{{$destination->tiktok}}" target="_blank" class="social-link">
-                        <i class="fa-brands fa-tiktok"></i> {{$destination->tiktok}}
-                    </a>
-                </li>
-            @endif
-            @if($destination->handphone_number)
-                <li>
-                    <a href="https://wa.me/{{$destination->handphone_number}}" class="social-link">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        {{$destination->handphone_number}}
-                    </a>
-                </li>
-            @endif
-            @if($destination->email)
-                <li>
-                    <a href="mailto:{{$destination->email}}" class="social-link">
-                        <i class="fa-solid fa-envelope"></i> {{$destination->email}}
-                    </a>
-                </li>
-            @endif
-        </ul>
-    </div>
+ <div class="container text-center">
+    <h2 class="mb-4">Social Media</h2>
+    <ul class="d-flex flex-wrap list-unstyled justify-content-center gap-3">
+        @if($destination->instagram)
+            <li>
+                <a href="https://instagram.com/{{$destination->instagram}}" target="_blank" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-instagram fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->instagram }}</span>
+                </a>
+            </li>
+        @endif
+        @if($destination->youtube)
+            <li>
+                <a href="https://youtube.com/{{$destination->youtube}}" target="_blank" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-youtube fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->youtube }}</span>
+                </a>
+            </li>
+        @endif
+        @if($destination->facebook)
+            <li>
+                <a href="https://id-id.facebook.com/public/{{$destination->facebook}}" target="_blank" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-facebook fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->facebook }}</span>
+                </a>
+            </li>
+        @endif
+        @if($destination->tiktok)
+            <li>
+                <a href="https://tiktok.com/{{$destination->tiktok}}" target="_blank" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-tiktok fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->tiktok }}</span>
+                </a>
+            </li>
+        @endif
+        @if($destination->handphone_number)
+            <li>
+                <a href="https://wa.me/{{$destination->handphone_number}}" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-whatsapp fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->handphone_number }}</span>
+                </a>
+            </li>
+        @endif
+        @if($destination->email)
+            <li>
+                <a href="mailto:{{$destination->email}}" class="social-link d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-envelope fs-4"></i>  
+                    <span class="d-none d-md-inline text-truncate">{{ $destination->email }}</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</div>
+
 </section>
 <style>.social-link {
     text-decoration: none;
@@ -214,6 +219,106 @@
 }
 </style>
     <br><br>
+    <section>
     
-   
+
+        <div class="container text-center">
+            <div class="container ">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Give a Review
+    </button><br><br>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Give a Review</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="/addReview/{{$destination->id}}">
+        @csrf
+          <div class="mb-3">
+            <label for="name" class="col-form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email">
+          </div>
+          <div class="mb-3">
+        <label class="form-label">Your Rating</label>
+        <div class="rating">
+            <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+            <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+            <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+            <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+            <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+        </div>
+    </div>
+    <style>
+        .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 5px;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: gold;
+}
+
+    </style>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Review</label>
+            <textarea class="form-control" id="review" name="review"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    
+    </div>
+  </div>
+</div>
+                <!-- <h2 class="text-center mb-4">Reviews</h2> -->
+                <div class="card shadow-sm p-4">
+                    @foreach($destination->reviews as $r)
+                        @if($r->status == 'accepted')
+                            <div class="mb-3 border-bottom pb-3">
+                                <h4>{{ $r->name }}</h4>
+                                <div >
+                                    <h4 class="text-warning" style="display: inline;">
+                                        {!! str_repeat('<span>★</span>', $r->rating) !!}
+                                    </h4>
+                                    <h4 class="text-warning" style="display: inline;margin-left:-5px" >
+                                        {!! str_repeat('<span>☆</span>', 5 - $r->rating) !!}
+                                    </h4>
+                                </div>
+
+                                <p>{{ $r->review }}</p>
+                            </div>
+             
+                        @endif
+                    @endforeach
+                </div>
+
+
+    </div>
+        </div>
+    </section>
+   <br>
+   <br>
+   <br>
 @endsection
