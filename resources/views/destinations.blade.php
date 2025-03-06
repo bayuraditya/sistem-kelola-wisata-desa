@@ -56,17 +56,19 @@
                 @endforeach
             </div>
         </div>
-    </section><script>
+    </section>
+    
+    <script>
     document.addEventListener("DOMContentLoaded", function () {
         const searchInput = document.getElementById("searchInput");
         const destinationList = document.getElementById("destinationList");
         const destinationItems = document.querySelectorAll(".destination-item");
 
-        // Elemen untuk pesan jika tidak ada hasil
+        // Buat elemen untuk pesan jika tidak ada hasil
         const noResultsMessage = document.createElement("div");
         noResultsMessage.classList.add("text-center", "mt-3");
         noResultsMessage.innerHTML = "<h5>No destinations found.</h5>";
-        noResultsMessage.style.display = "none";
+        noResultsMessage.style.display = "none"; 
         destinationList.appendChild(noResultsMessage);
 
         searchInput.addEventListener("input", function () {
@@ -75,20 +77,21 @@
 
             destinationItems.forEach(item => {
                 const title = item.querySelector(".card-title").textContent.toLowerCase();
+
                 if (title.includes(query)) {
-                    item.style.visibility = "visible";  
-                    item.style.height = "auto";  
+                    item.style.display = "flex"; // Pakai "flex" agar tetap mengikuti Bootstrap Grid
                     hasResults = true;
                 } else {
-                    item.style.visibility = "hidden";  
-                    item.style.height = "0";  
+                    item.style.display = "none"; // Sembunyikan sepenuhnya
                 }
             });
 
+            // Tampilkan atau sembunyikan pesan "No destinations found."
             noResultsMessage.style.display = hasResults ? "none" : "block";
         });
     });
 </script>
+
 <br>
 <br>
 <br>

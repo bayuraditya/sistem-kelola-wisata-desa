@@ -14,16 +14,17 @@ class ReviewSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-
-        for ($i = 0; $i < 10; $i++) {
-            Review::create([
-                'email' => $faker->unique()->safeEmail,
-                'name' => $faker->name,
-                'rating' => $faker->numberBetween(1, 5),
-                'review' => $faker->sentence(10),
-                'status' => $faker->randomElement(['declined', 'accepted','pending']),
-                'destination_id' => $faker->numberBetween(1, 10), // Sesuaikan dengan jumlah destinasi yang ada
-            ]);
+        for ($i = 0; $i < 5; $i++) {
+            for ($j = 1; $j < 40; $j++) {
+                Review::create([
+                    'email' => $faker->unique()->safeEmail,
+                    'name' => $faker->name,
+                    'rating' => $faker->numberBetween(1, 5),
+                    'review' => $faker->sentence(10),
+                    'status' => $faker->randomElement(['declined', 'accepted','pending']),
+                    'destination_id' => $j, // Sesuaikan dengan jumlah destinasi yang ada
+                ]);
+            }
         }
     }
 }

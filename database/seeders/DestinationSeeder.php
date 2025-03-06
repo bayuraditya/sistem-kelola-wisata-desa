@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Destination;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class DestinationSeeder extends Seeder
 {
@@ -13,193 +13,31 @@ class DestinationSeeder extends Seeder
      */
     public function run(): void
     {
-//         // 
-// id	name	description	location	entry_fee	opening_time	closed_time	handphone_number	email	instagram	tiktok	facebook	youtube	category_id	user_id	created_at	updated_at
-        $destinations = [
-            [
-                'name' => 'ABC waterfall',
-                'description' => 'best view waterfall',
-                'location' => 'br. tegal',
-                'entry_fee' => 20000,
-                'opening_time' => '08:00',
-                'closed_time' => '18:00',
-                'handphone_number' => '073182921',
-                'email' => 'abcwaterfall@gmail.com',
-                'instagram' => '@abcwaterfall',
-                'tiktok' => '@abcwaterfall',
-                'facebook' => 'abcwaterfall',
-                'youtube' => 'abcwaterfall',
-                'category_id' => 2,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            [
-                'name' => 'Pantai A',
-                'description' => 'best view beach',
-                'location' => 'br. asri',
-                'entry_fee' => 5000,
-                'opening_time' => '07:00',
-                'closed_time' => '23:00',
-                'handphone_number' => '032182921',
-                'email' => 'pantaia@gmail.com',
-                'instagram' => '@pantai_a',
-                'tiktok' => '@pantai_a',
-                'facebook' => 'pantai_a',
-                'youtube' => 'pantai_a',
-                'category_id' => 1,
-                'user_id' => 1,
-            ],
-            
-            
-        ];
+        $faker = Faker::create();
 
+        for ($i = 0; $i < 40; $i++) {
+            // Buat satu username untuk digunakan di semua platform
+            $place = $faker->city;
+            $socialMedia = str_replace(' ', '', $place);
+            Destination::create([
+                'name' => $place,
+                'description' => $faker->paragraph(6),
+                'location' => $faker->streetAddress,
+                'entry_fee' => $faker->numberBetween(1000, 500000),
+                'opening_time' => $faker->time,
+                'closed_time' => $faker->time,
+                'handphone_number' => $faker->phoneNumber,
+                'email' => $socialMedia . '@gmail.com', // Perbaiki email agar benar
+                
+                // Gunakan username yang sama untuk semua media sosial
+                'instagram' => '@' . $socialMedia,
+                'tiktok' => '@' . $socialMedia,
+                'facebook' => $socialMedia,
+                'youtube' => '@' . $socialMedia,
 
-        foreach ($destinations as $destinations) {
-            Destination::create($destinations);
+                'category_id' => $faker->numberBetween(1, 5),
+                'user_id' => 1
+            ]);
         }
-
     }
 }

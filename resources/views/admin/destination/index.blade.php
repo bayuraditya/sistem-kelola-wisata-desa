@@ -512,7 +512,7 @@
                                                                             class="text-success"
                                                                         @elseif($r->status == 'declined')
                                                                             class="text-danger"
-                                                                        @elseif($r->status == 'declined')
+                                                                        @elseif($r->status == 'pending')
                                                                             class="text-warning"
                                                                         @endif
                                                                         >{{$r->status}}</td>

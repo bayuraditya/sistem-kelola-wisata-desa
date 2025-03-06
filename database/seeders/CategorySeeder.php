@@ -14,11 +14,17 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'beach'],
-            ['name' => 'waterfall'],
-            ['name' => 'hiking'],
-            ['name' => 'pool'],
-            ['name' => 'lake'],
+            ['name' => 'Beach'],
+            ['name' => 'Waterfall'],
+            ['name' => 'Hiking'],
+            ['name' => 'Pool'],
+            ['name' => 'Lake'],
+            ['name' => 'River'],
+            ['name' => 'Nigth Marker'],
+            ['name' => 'Rice Terrace'],
+            ['name' => 'Savana'],
+            ['name' => 'Mountain'],
+            ['name' => 'Coffe Shop'],
         ];
 
         foreach ($categories as $categories) {
