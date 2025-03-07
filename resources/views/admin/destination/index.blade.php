@@ -58,7 +58,7 @@
                             
                             <div class="mb-3">
                                 <label for="handphone_number" class="form-label">Handphone Number</label>
-                                <input type="number" class="form-control" id="handphone_number" name="handphone_number">
+                                <input type="text" class="form-control" id="handphone_number" name="handphone_number">
                             </div>
                             
                             <div class="mb-3">
