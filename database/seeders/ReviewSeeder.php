@@ -15,7 +15,7 @@ class ReviewSeeder extends Seeder
     {
         $faker = Faker::create();
         for ($i = 0; $i < 5; $i++) {
-            for ($j = 1; $j < 40; $j++) {
+            for ($j = 1; $j < 10; $j++) {
                 Review::create([
                     'email' => $faker->unique()->safeEmail,
                     'name' => $faker->name,

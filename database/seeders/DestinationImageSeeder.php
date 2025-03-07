@@ -26,7 +26,7 @@ class DestinationImageSeeder extends Seeder
         $destinationIds = Destination::pluck('id')->toArray();
 
         for($i=0;$i<5;$i++){
-            for($j=1;$j<40;$j++){
+            for($j=1;$j<10;$j++){
                 DestinationImage::create([
                     'image'          => $faker->randomElement($images), // Pilih gambar secara acak
                     'destination_id' => $j,

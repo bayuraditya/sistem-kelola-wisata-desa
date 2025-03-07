@@ -21,7 +21,7 @@ class FacilitySeeder extends Seeder
 
         $destinationIds = Destination::pluck('id')->toArray();
         for ($i = 1; $i <= 5; $i++) {
-            for ($j = 1; $j < 40; $j++) {
+            for ($j = 1; $j < 10; $j++) {
                 Facility::create([
                     'name'           => $faker->sentence(3),
                     'description'    => $faker->paragraph(2),

@@ -15,7 +15,7 @@ class DestinationSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             // Buat satu username untuk digunakan di semua platform
             $place = $faker->city;
             $socialMedia = str_replace(' ', '', $place);
