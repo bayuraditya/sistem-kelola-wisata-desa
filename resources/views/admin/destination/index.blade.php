@@ -34,7 +34,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <!-- <textarea class="form-control" id="description" name="description"></textarea> -->
+                                <input type="text" class="form-control" id="description" name="description">
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
@@ -104,9 +105,9 @@
                                 <div class="facility-item">
                                     <label class="form-label">Facility 1</label>
                                     <input type="text" class="form-control" name="facility[0][name]" required>
-
+                                    
                                     <label class="form-label">Facility 1 Description</label>
-                                    <textarea class="form-control" name="facility[0][description]""></textarea>
+                                    <input type="text" class="form-control" name="facility[0][description]" required>
 
                                     <label class="form-label mt-2">Facility 1 Image</label>
                                     <input type="file" class="form-control" name="facility[0][image]" accept="image/*">
@@ -147,7 +148,7 @@
                                             <input type="text" class="form-control" name="facility[${facilityCount}][name]" required>
 
                                             <label class="form-label">Facility ${facilityCount + 1} Description</label>
-                                            <textarea class="form-control" name="facility[${facilityCount}][description]" ></textarea>
+                                            <input type="text" class="form-control" name="facility[${facilityCount}][description]" required>
 
                                             <label class="form-label mt-2">Facility ${facilityCount + 1} Image</label>
                                             <input type="file" class="form-control" name="facility[${facilityCount}][image]" >
@@ -178,7 +179,7 @@
         <input type="text" class="form-control" name="activity[0][name]" required>
 
         <label class="form-label">Activity 1 Description</label>
-        <textarea class="form-control" name="activity[0][description]"></textarea>
+        <input type="text" class="form-control" name="activity[0][description]" required>
 
         <label class="form-label mt-2">Activity 1 Image</label>
         <input type="file" class="form-control" name="activity[0][image]" accept="image/*">
@@ -219,7 +220,7 @@
                 <input type="text" class="form-control" name="activity[${activityCount}][name]" required>
 
                 <label class="form-label">Activity ${activityCount + 1} Description</label>
-                <textarea class="form-control" name="activity[${activityCount}][description]" ></textarea>
+                <input type="text" class="form-control" name="activity[${activityCount}][description]" required>
 
                 <label class="form-label mt-2">Activity ${activityCount + 1} Image</label>
                 <input type="file" class="form-control" name="activity[${activityCount}][image]" >

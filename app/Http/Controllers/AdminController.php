@@ -75,7 +75,7 @@ class AdminController extends Controller
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
 
-        foreach($request->facility as $f){
+        foreach($request->facility ?? [] as $f){
             $facility = new Facility();
             $facility->name = $f['name'];
             $facility->description = $f['description'];
@@ -91,7 +91,7 @@ class AdminController extends Controller
             $facility->save();
         }
 
-        foreach($request->activity as $a){
+        foreach($request->activity ?? [] as $a){
             $activity = new Activity();
             $activity->name = $a['name'];
             $activity->description = $a['description'];
@@ -124,9 +124,7 @@ class AdminController extends Controller
         return view('admin.destination.edit', compact('destination','user','categories','facility','activity','destinationImage'));
     }
     public function updatedestination(Request $request, $id){
-        // dd($request->activity[2]['image']);
-        // dd($request->file['activity']);
-        // dd($request);
+  
         $destination = destination::findOrFail($id);
         $destination->name = $request->name;
         $destination->description = $request->description;
@@ -148,14 +146,6 @@ class AdminController extends Controller
         foreach($deleteDestinationImage as $d){
             $d->delete();
         }
-        //upload destination image lama yang tidak dihapus
-        // $images1 = $request->destinationImage;
-        // foreach($images1 as $image1){
-        //     $destinationImage = new destinationImage();
-        //     $destinationImage->image = $image1;
-        //     $destinationImage->destination_id = $destination->id;
-        //     $destinationImage->save();
-        // }
         
         if (!empty($request->destinationImage) && is_array($request->destinationImage)) {
             foreach ($request->destinationImage as $image1) {
@@ -165,10 +155,6 @@ class AdminController extends Controller
                 $destinationImage->save();
             }
         } 
-
-        
-
-
 
         //upload destination image baru
         if ($request->hasFile('newImage')) {
@@ -286,14 +272,10 @@ class AdminController extends Controller
         $user->password = Hash::make($request->password);
         
         if ($request->hasFile('profile_picture')) {
-            
-            
             $profilePicture = $request->file('profile_picture');
             $profilePictureName = time() . '_' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
             // Move the image to the desired location
             $profilePicture->move(public_path('images'), $profilePictureName);
-           
-            
             $user->profile_picture = $profilePictureName;
         }
 
@@ -302,28 +284,7 @@ class AdminController extends Controller
         return redirect()->route('admin.user.index')->with('success', 'User created successfully.');
 
     }
-    // public function updateUser(Request $request,$id){
-    //     $user = User::findOrFail($id);
-    //     $user->name = $request->editName;
-    //     $user->email = $request->editEmail;
-    //     $user->handphone_number = $request->editHandphoneNumber;
-    //     $user->password = Hash::make($request->editPassword);
-    //     if ($request->hasFile('profile_picture')) {
-            
-    //           if ($user->profile_picture && file_exists(public_path($user->profile_picture))) {
-    //             unlink(public_path($user->profile_picture));
-    //         }
-    //         $profilePicture = $request->file('profile_picture');
-    //         $profilePictureName = time() . '_' . uniqid() . '.' . $profilePicture->getClientOriginalExtension();
-    //         // Move the image to the desired location
-    //         $profilePicture->move(public_path('images'), $profilePictureName);
-           
-            
-    //         $user->profile_picture = $profilePictureName;
-    //     }
-    //     $user->save();
-    //     return redirect()->route('admin.user.index')->with('success', 'User updated successfully.');
-    // }
+
     public function destroyUser($id){
         $user = User::findOrFail($id);
         $user->delete();
