@@ -32,9 +32,7 @@
         <div class="container">
             <h2 class="text-center mb-4">Tourist Destination</h2>
             
-            <div class="mb-4 ms-1">
-                <input type="text" id="searchInput" class="form-control" style="width: 300px;" placeholder="Search destinations...">
-            </div>
+          
             
             <div class="row" id="destinationList">
                 @foreach($destinations as $d)
@@ -58,39 +56,7 @@
         </div>
     </section>
     
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("searchInput");
-        const destinationList = document.getElementById("destinationList");
-        const destinationItems = document.querySelectorAll(".destination-item");
-
-        // Buat elemen untuk pesan jika tidak ada hasil
-        const noResultsMessage = document.createElement("div");
-        noResultsMessage.classList.add("text-center", "mt-3");
-        noResultsMessage.innerHTML = "<h5>No destinations found.</h5>";
-        noResultsMessage.style.display = "none"; 
-        destinationList.appendChild(noResultsMessage);
-
-        searchInput.addEventListener("input", function () {
-            const query = searchInput.value.toLowerCase();
-            let hasResults = false;
-
-            destinationItems.forEach(item => {
-                const title = item.querySelector(".card-title").textContent.toLowerCase();
-
-                if (title.includes(query)) {
-                    item.style.display = "flex"; // Pakai "flex" agar tetap mengikuti Bootstrap Grid
-                    hasResults = true;
-                } else {
-                    item.style.display = "none"; // Sembunyikan sepenuhnya
-                }
-            });
-
-            // Tampilkan atau sembunyikan pesan "No destinations found."
-            noResultsMessage.style.display = hasResults ? "none" : "block";
-        });
-    });
-</script>
+   
 
 <br>
 <br>
@@ -99,10 +65,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
+
 <br>
 <br>
 <br>
