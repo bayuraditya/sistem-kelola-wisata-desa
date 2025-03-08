@@ -172,6 +172,7 @@ class AdminController extends Controller
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
+        // dd($request);
         
         $deleteFacility = Facility::where('destination_id',$destination->id)->get();
         foreach($deleteFacility ?? []  as $df){
@@ -179,8 +180,8 @@ class AdminController extends Controller
         }
         foreach($request->facility ?? [] as $f){
             $facility = new Facility();
-            $facility->name = $f['name'];
-            $facility->description = $f['description'];
+            $facility->name = $f['name'] ?? 'Default Name';;
+            $facility->description = $f['description'] ?? 'Default desc';;
             
             if(isset($f['newImage'])){
                 // dd($request);
@@ -202,8 +203,8 @@ class AdminController extends Controller
         }
         foreach($request->activity ?? [] as $a){
             $activity = new Activity();
-            $activity->name = $a['name'];
-            $activity->description = $a['description'];
+            $activity->name = $a['name'] ?? 'Default Name';;
+            $activity->description = $a['description'] ?? 'Default desc';;
             
             if(isset($a['newImage'])){
                 $activityImage = $a['newImage'];
@@ -229,7 +230,132 @@ class AdminController extends Controller
         return redirect()->route('admin.destination.index')
         ->with('success', 'Destination deleted successfully');
     }
+
+
+
+    public function createFacility($destinationId){
+        $destinationId = $destinationId;
+        // dd($destinationId);
+        return view('admin.destination.facility.create',compact('destinationId'));
+    }
+    public function storeFacility($destinationId, Request $request){
+    //    dd($destinationId);
+          // Simpan data facility
+          $facility = new Facility();
+          $facility->destination_id = $destinationId;
+          $facility->name = $request->name;
+          $facility->description = $request->description;
   
+          // Upload gambar jika ada
+             
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            // Move the image to the desired location
+            $image->move(public_path('images'), $imageName);
+            // $user->profile_picture = $profilePictureName;
+            $facility->image = $imageName;            
+        }
+  
+        $facility->save();
+        return redirect()->route('admin.destination.index')
+        ->with('success', 'Facility created successfully');
+    }
+    public function editFacility($destinationId,$facilityId){
+        $facility = Facility::where('id', $facilityId)
+                            ->where('destination_id', $destinationId)
+                            ->first();
+        $destinationId = $destinationId;
+        return view('admin.destination.facility.edit',compact('facility','destinationId'));
+    }
+    public function updateFacility($destinationId,$facilityId, Request $request){
+        // dd($request);
+        $facility = Facility::findOrFail($facilityId);
+        $facility->name = $request->name;
+        $facility->description = $request->description;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            // Move the image to the desired location
+            $image->move(public_path('images'), $imageName);
+            // $user->profile_picture = $profilePictureName;
+            $facility->image = $imageName;            
+        }
+      
+        // $facility->destination_id = $id;
+        $facility->save();
+
+        return redirect()->route('admin.destination.index')
+        ->with('success', 'Facility updated successfully');
+    }
+    public function destroyFacility($destinationId, $facilitiyId)
+    {
+        $facility = Facility::findOrFail($facilitiyId);
+        $facility->delete();
+        return redirect()->route('admin.destination.index')->with('success', 'Facility deleted successfully.');
+    }
+
+
+    public function createActivity($destinationId){
+        $destinationId = $destinationId;
+        return view('admin.destination.activity.create',compact('destinationId'));
+    }
+    
+    public function storeActivity($destinationId, Request $request){
+        $activity = new Activity();
+        $activity->destination_id = $destinationId;
+        $activity->name = $request->name;
+        $activity->description = $request->description;
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $activity->image = $imageName;            
+        }
+    
+        $activity->save();
+        return redirect()->route('admin.destination.index')
+            ->with('success', 'Activity created successfully');
+    }
+    
+    public function editActivity($destinationId, $activityId){
+        $activity = Activity::where('id', $activityId)
+                            ->where('destination_id', $destinationId)
+                            ->first();
+        $destinationId = $destinationId;
+        return view('admin.destination.activity.edit',compact('activity','destinationId'));
+    }
+    
+    public function updateActivity( $destinationId,$activityId, Request $request){
+        $activity = Activity::findOrFail($activityId);
+        $activity->name = $request->name;
+        $activity->description = $request->description;
+        
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $activity->image = $imageName;            
+        }
+      
+        $activity->save();
+    
+        return redirect()->route('admin.destination.index')
+            ->with('success', 'Activity updated successfully');
+    }
+    
+    public function destroyActivity($destinationId, $activityId)
+    {
+        $activity = Activity::findOrFail($activityId);
+        $activity->delete();
+        return redirect()->route('admin.destination.index')->with('success', 'Activity deleted successfully.');
+    }
+    
+    
+
+
+
     public function category(){
         
         $user = Auth::user();

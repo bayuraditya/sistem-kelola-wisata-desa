@@ -372,6 +372,10 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
+                                         
+                                                <a href="/admin/destination/{{$d->id}}/facility/create" type="button" class="btn btn-primary">Add Facility</a>
+                                                <br><br>
+
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered">
                                                             <thead>
@@ -380,6 +384,7 @@
                                                                     <td>Facility</td>
                                                                     <td>Description</td>
                                                                     <td>Image</td>
+                                                                    <td>Action</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -390,6 +395,17 @@
                                                                     <td>{{$f->description}}</td>
                                                                     <td>                                     
                                                                         <img src="{{ asset('images/' . $f->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex gap-2">
+                                                                            <a href="/admin/destination/{{$d->id}}/facility/{{$f->id}}" type="button" class="btn btn-warning">Edit</a>
+                                                                            <form action="/admin/destination/{{$d->id}}/facility/{{$f->id}}" method="POST">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input onclick="return confirm('Are you sure you want delete {{$f->name}} ?')" 
+                                                                                    type="submit" class="btn btn-danger" value="DELETE">
+                                                                            </form>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                                 @endforeach
@@ -404,6 +420,48 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                    
+
+                                    <div class="modal fade" id="addFacility{{$d->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{$d->name}} Social Media</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="table-responsive">
+                                                        <form action="/admin/destination/facility/store" method="post">
+                                                            @csrf
+                                                                  
+                                                            <div class="mb-3">
+                                                                <label for="name" class="form-label">Name</label>
+                                                                <input type="text" class="form-control" id="name" name="facilityName">
+                                                            </div>
+                                                        
+                                                           
+                                                            <div class="mb-3">
+                                                                <label for="formFile" class="form-label">Image</label>
+                                                                <input class="form-control" type="file" name="facilityImage" id="images" accept="image/*" >
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#images{{$d->id}}">
@@ -443,6 +501,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="table-responsive">
+                                                <a href="/admin/destination/{{$d->id}}/facility/create" type="button" class="btn btn-primary">Add Facility</a>
+<br><br>
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
@@ -450,6 +510,7 @@
                                                                     <td>Activity</td>
                                                                     <td>Description</td>
                                                                     <td>Image</td>
+                                                                    <td>Action</td>
                                                                 </tr>
                                                             </thead>    
                                                             <tbody>
@@ -460,6 +521,17 @@
                                                                         <td>{{$a->description}}</td>
                                                                         <td>                                     
                                                                             <img src="{{ asset('images/' . $a->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex gap-2">
+                                                                                <a href="/admin/destination/{{$d->id}}/activity/{{$a->id}}" type="button" class="btn btn-warning">Edit</a>
+                                                                                <form action="/admin/destination/{{$d->id}}/activity/{{$a->id}}" method="POST">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <input onclick="return confirm('Are you sure you want delete {{$a->name}} ?')" 
+                                                                                        type="submit" class="btn btn-danger" value="DELETE">
+                                                                                </form>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach

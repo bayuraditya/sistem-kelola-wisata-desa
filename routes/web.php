@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuestController;
@@ -12,20 +11,34 @@ Route::get('galleries', [GuestController::class, 'galleries']);
 Route::get('about-us', [GuestController::class, 'aboutUs']);
 Route::get('contact', [GuestController::class, 'contact']);
 Route::post('/addReview/{id}', [GuestController::class, 'storeReview']);
-
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
-        
         Route::prefix('destination')->name('destination.')->group(function () {
             Route::get('/', [AdminController::class, 'destination'])->name('index');
             Route::post('/store', [AdminController::class, 'storeDestination'])->name('store');
             Route::get('/{id}', [AdminController::class, 'editDestination'])->name('edit');
             Route::put('/{id}', [AdminController::class, 'updateDestination'])->name('update');
             Route::delete('/{id}', [AdminController::class, 'destroyDestination'])->name('destroy');
+            
+            Route::prefix('/{destinationId}/facility')->name('facility.')->group(function () {
+                Route::get('/create', [AdminController::class, 'createFacility'])->name('create');
+                Route::post('/store', [AdminController::class, 'storeFacility'])->name('store');
+                Route::get('/{facilityId}', [AdminController::class, 'editFacility'])->name('edit');
+                Route::put('/{facilityId}', [AdminController::class, 'updateFacility'])->name('update');
+                Route::delete('/{facilityId}', [AdminController::class, 'destroyFacility'])->name('destroy');
+            });
+
+            Route::prefix('/{destinationId}/activity')->name('activity.')->group(function () {
+                Route::get('/create', [AdminController::class, 'createActivity'])->name('create');
+                Route::post('/store', [AdminController::class, 'storeActivity'])->name('store');
+                Route::get('/{facilityId}', [AdminController::class, 'editActivity'])->name('edit');
+                Route::put('/{facilityId}', [AdminController::class, 'updateActivity'])->name('update');
+                Route::delete('/{facilityId}', [AdminController::class, 'destroyActivity'])->name('destroy');
+            });
+          
         });
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', [AdminController::class, 'category'])->name('index');
@@ -46,19 +59,10 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{id}', [AdminController::class, 'updateProfile'])->name('update');
             Route::get('/change-password', [AdminController::class, 'showChangePasswordForm'])->name('showChangePasswordForm');
             Route::put('/change-password/{id}', [AdminController::class, 'changePassword'])->name('changePassword');
-       
         });
         Route::prefix('review')->name('review.')->group(function () {
             Route::put('/{id}', [AdminController::class, 'updateReview'])->name('update');
-            
         });
-
     });
-
-
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-// destination,facility,category,logout
-
